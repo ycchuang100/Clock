@@ -6,591 +6,313 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="外星寶寶鬧鐘">
-<meta name="theme-color" content="#fff0fa">
-<title>外星寶寶鬧鐘 👾</title>
+<meta name="theme-color" content="#fde8ff">
+<title>外星寶寶鬧鐘</title>
 <script>
-(function(){
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-    <defs>
-      <radialGradient id="skybg" cx="50%" cy="0%" r="90%">
-        <stop offset="0%" stop-color="#ffe8fb"/>
-        <stop offset="100%" stop-color="#dff6ff"/>
-      </radialGradient>
-    </defs>
-    <rect width="512" height="512" rx="115" fill="url(#skybg)"/>
-    <circle cx="80" cy="90" r="28" fill="#ffe566"/><circle cx="80" cy="90" r="22" fill="#ffd700"/>
-    <circle cx="420" cy="380" r="18" fill="#ffb3e6" opacity="0.7"/>
-    <circle cx="60" cy="380" r="12" fill="#b3e0ff" opacity="0.8"/>
-    <circle cx="440" cy="120" r="10" fill="#c8f7c5" opacity="0.9"/>
-    <circle cx="140" cy="420" r="9" fill="#ffd6ff" opacity="0.8"/>
-    <ellipse cx="256" cy="440" rx="110" ry="26" fill="#c8f0c0" opacity="0.45"/>
-    <line x1="200" y1="178" x2="162" y2="112" stroke="#a8e6cf" stroke-width="9" stroke-linecap="round"/>
-    <circle cx="156" cy="101" r="20" fill="#ff9de2"/>
-    <circle cx="156" cy="101" r="11" fill="#ffcff0"/>
-    <circle cx="159" cy="97" r="5" fill="white" opacity="0.8"/>
-    <line x1="312" y1="178" x2="350" y2="112" stroke="#a8e6cf" stroke-width="9" stroke-linecap="round"/>
-    <circle cx="356" cy="101" r="20" fill="#ff9de2"/>
-    <circle cx="356" cy="101" r="11" fill="#ffcff0"/>
-    <circle cx="359" cy="97" r="5" fill="white" opacity="0.8"/>
-    <ellipse cx="256" cy="295" rx="85" ry="62" fill="#a8e6cf"/>
-    <ellipse cx="256" cy="262" rx="112" ry="122" fill="#b5f2a0"/>
-    <ellipse cx="230" cy="212" rx="30" ry="18" fill="white" opacity="0.22" transform="rotate(-25,230,212)"/>
-    <ellipse cx="214" cy="252" rx="38" ry="46" fill="white"/>
-    <ellipse cx="298" cy="252" rx="38" ry="46" fill="white"/>
-    <circle cx="218" cy="258" r="23" fill="#5b4fcf"/>
-    <circle cx="302" cy="258" r="23" fill="#5b4fcf"/>
-    <circle cx="208" cy="248" r="13" fill="#7c6fe0"/>
-    <circle cx="292" cy="248" r="13" fill="#7c6fe0"/>
-    <circle cx="225" cy="246" r="8" fill="white" opacity="0.95"/>
-    <circle cx="309" cy="246" r="8" fill="white" opacity="0.95"/>
-    <circle cx="221" cy="241" r="3.5" fill="white"/>
-    <circle cx="305" cy="241" r="3.5" fill="white"/>
-    <circle cx="192" cy="262" r="9" fill="#ff9de2" opacity="0.55"/>
-    <circle cx="320" cy="262" r="9" fill="#ff9de2" opacity="0.55"/>
-    <ellipse cx="248" cy="315" rx="8" ry="5" fill="#6ecf6e" opacity="0.55"/>
-    <ellipse cx="264" cy="315" rx="8" ry="5" fill="#6ecf6e" opacity="0.55"/>
-    <path d="M220 340 Q256 370 292 340" fill="none" stroke="#4aaa4a" stroke-width="6.5" stroke-linecap="round"/>
-    <circle cx="216" cy="338" r="5.5" fill="#4aaa4a"/>
-    <circle cx="296" cy="338" r="5.5" fill="#4aaa4a"/>
-    <path d="M171 308 Q136 288 126 312 Q121 328 146 335" fill="none" stroke="#a8e6cf" stroke-width="14" stroke-linecap="round"/>
-    <circle cx="126" cy="318" r="11" fill="#ffb3e6"/>
-    <path d="M341 308 Q376 288 386 312 Q391 328 366 335" fill="none" stroke="#a8e6cf" stroke-width="14" stroke-linecap="round"/>
-    <circle cx="386" cy="318" r="11" fill="#ffb3e6"/>
-    <circle cx="256" cy="300" r="40" fill="white" opacity="0.93"/>
-    <circle cx="256" cy="300" r="40" fill="none" stroke="#ffb3e6" stroke-width="4.5"/>
-    <line x1="256" y1="265" x2="256" y2="273" stroke="#ffb3e6" stroke-width="3.5" stroke-linecap="round"/>
-    <line x1="256" y1="327" x2="256" y2="335" stroke="#ffb3e6" stroke-width="3.5" stroke-linecap="round"/>
-    <line x1="221" y1="300" x2="229" y2="300" stroke="#ffb3e6" stroke-width="3.5" stroke-linecap="round"/>
-    <line x1="283" y1="300" x2="291" y2="300" stroke="#ffb3e6" stroke-width="3.5" stroke-linecap="round"/>
-    <line x1="256" y1="300" x2="256" y2="279" stroke="#5b4fcf" stroke-width="4" stroke-linecap="round"/>
-    <line x1="256" y1="300" x2="272" y2="309" stroke="#ff6eb4" stroke-width="3.5" stroke-linecap="round"/>
-    <circle cx="256" cy="300" r="4.5" fill="#5b4fcf"/>
-  </svg>`;
-  const b64 = btoa(unescape(encodeURIComponent(svg)));
-  const url = 'data:image/svg+xml;base64,' + b64;
-  const link180 = document.createElement('link');
-  link180.rel = 'apple-touch-icon';
-  link180.href = url;
-  document.head.appendChild(link180);
-  const fav = document.createElement('link');
-  fav.rel = 'icon';
-  fav.type = 'image/svg+xml';
-  fav.href = url;
-  document.head.appendChild(fav);
-})();
+/* Draw cute alien icon on canvas → PNG → apple-touch-icon */
+window.addEventListener('DOMContentLoaded', function() {
+  try {
+    const cv = document.createElement('canvas');
+    cv.width = cv.height = 512;
+    const g = cv.getContext('2d');
+    function circ(x,y,r){g.beginPath();g.arc(x,y,r,0,Math.PI*2);}
+    function rr(x,y,w,h,r){g.beginPath();g.moveTo(x+r,y);g.arcTo(x+w,y,x+w,y+h,r);g.arcTo(x+w,y+h,x,y+h,r);g.arcTo(x,y+h,x,y,r);g.arcTo(x,y,x+w,y,r);g.closePath();}
+    function star(cx,cy,r1,r2,n){const a=Math.PI/n;g.beginPath();for(let i=0;i<2*n;i++){const r=i%2===0?r2:r1,ang=i*a-Math.PI/2;i===0?g.moveTo(cx+r*Math.cos(ang),cy+r*Math.sin(ang)):g.lineTo(cx+r*Math.cos(ang),cy+r*Math.sin(ang));}g.closePath();}
+    // bg gradient
+    const bg=g.createRadialGradient(256,80,20,256,256,340);
+    bg.addColorStop(0,'#fff0fd');bg.addColorStop(1,'#daf7ff');
+    rr(0,0,512,512,112);g.fillStyle=bg;g.fill();
+    // sun
+    g.fillStyle='#ffd700';circ(76,78,26);g.fill();
+    g.fillStyle='#ffe566';circ(76,78,18);g.fill();
+    // pastel bubbles
+    const bubs=[[420,370,16,'#ffb3e6',.75],[55,370,11,'#b3e0ff',.75],[446,118,9,'#c8f7c5',.8],[140,428,8,'#ffd6ff',.75],[462,242,7,'#ffe0a0',.75]];
+    bubs.forEach(([x,y,r,c,a])=>{g.globalAlpha=a;g.fillStyle=c;circ(x,y,r);g.fill();});g.globalAlpha=1;
+    // sparkle stars
+    [['#ffd700',85,160,10,5],['#ff80cc',432,158,8,5],['#80ccff',402,392,7,5]].forEach(([c,x,y,r,n])=>{g.fillStyle=c;g.globalAlpha=0.85;star(x,y,r/2,r,n);g.fill();g.globalAlpha=1;});
+    // shadow under alien
+    g.fillStyle='rgba(0,0,0,0.07)';g.beginPath();g.ellipse(256,452,100,20,0,0,Math.PI*2);g.fill();
+    // body
+    g.fillStyle='#a8e6cf';g.beginPath();g.ellipse(256,310,74,54,0,0,Math.PI*2);g.fill();
+    // head
+    const hg=g.createRadialGradient(230,200,10,256,252,130);
+    hg.addColorStop(0,'#d4ffb8');hg.addColorStop(1,'#a8ee80');
+    g.fillStyle=hg;g.beginPath();g.ellipse(256,252,110,120,0,0,Math.PI*2);g.fill();
+    // head shine
+    g.save();g.globalAlpha=0.22;g.fillStyle='white';g.beginPath();g.ellipse(222,202,30,17,-0.45,0,Math.PI*2);g.fill();g.restore();
+    // antenna left
+    g.strokeStyle='#96ddc0';g.lineWidth=10;g.lineCap='round';
+    g.beginPath();g.moveTo(198,174);g.lineTo(156,106);g.stroke();
+    g.fillStyle='#ff80c8';circ(150,94,22);g.fill();
+    g.fillStyle='#ffcff0';circ(150,94,12);g.fill();
+    g.fillStyle='rgba(255,255,255,0.85)';circ(154,89,5.5);g.fill();
+    // antenna right
+    g.strokeStyle='#96ddc0';g.lineWidth=10;
+    g.beginPath();g.moveTo(314,174);g.lineTo(358,106);g.stroke();
+    g.fillStyle='#ff80c8';circ(364,94,22);g.fill();
+    g.fillStyle='#ffcff0';circ(364,94,12);g.fill();
+    g.fillStyle='rgba(255,255,255,0.85)';circ(368,89,5.5);g.fill();
+    // eye whites
+    g.fillStyle='white';
+    g.beginPath();g.ellipse(210,248,40,48,0,0,Math.PI*2);g.fill();
+    g.beginPath();g.ellipse(302,248,40,48,0,0,Math.PI*2);g.fill();
+    // pupils dark
+    g.fillStyle='#3a2da0';circ(214,254,24);g.fill();circ(306,254,24);g.fill();
+    // iris highlight
+    g.fillStyle='#6050d8';circ(204,244,14);g.fill();circ(296,244,14);g.fill();
+    // white shine
+    g.fillStyle='white';circ(221,242,9);g.fill();circ(313,242,9);g.fill();
+    g.fillStyle='white';circ(217,237,4);g.fill();circ(309,237,4);g.fill();
+    // blush
+    g.fillStyle='#ff9de2';g.globalAlpha=0.48;circ(184,268,13);g.fill();circ(328,268,13);g.fill();g.globalAlpha=1;
+    // nose dots
+    g.fillStyle='#5cb85c';g.globalAlpha=0.5;
+    g.beginPath();g.ellipse(244,310,7,5,0,0,Math.PI*2);g.fill();
+    g.beginPath();g.ellipse(268,310,7,5,0,0,Math.PI*2);g.fill();g.globalAlpha=1;
+    // smile
+    g.strokeStyle='#3a9e3a';g.lineWidth=7.5;g.lineCap='round';
+    g.beginPath();g.moveTo(216,340);g.quadraticCurveTo(256,374,296,340);g.stroke();
+    g.fillStyle='#3a9e3a';circ(212,337,6.5);g.fill();circ(300,337,6.5);g.fill();
+    // arms
+    g.strokeStyle='#96ddc0';g.lineWidth=15;g.lineCap='round';
+    g.beginPath();g.moveTo(182,302);g.quadraticCurveTo(140,280,128,306);g.quadraticCurveTo(123,325,150,332);g.stroke();
+    g.beginPath();g.moveTo(330,302);g.quadraticCurveTo(372,280,384,306);g.quadraticCurveTo(389,325,362,332);g.stroke();
+    g.fillStyle='#ffb3e6';circ(125,314,12);g.fill();circ(387,314,12);g.fill();
+    // clock on belly
+    g.fillStyle='rgba(255,255,255,0.92)';circ(256,305,40);g.fill();
+    g.strokeStyle='#ffaadd';g.lineWidth=5;circ(256,305,40);g.stroke();
+    [[256,270,256,278],[256,332,256,340],[220,305,229,305],[283,305,292,305]].forEach(([x1,y1,x2,y2])=>{
+      g.strokeStyle='#ffaadd';g.lineWidth=4;g.beginPath();g.moveTo(x1,y1);g.lineTo(x2,y2);g.stroke();
+    });
+    g.strokeStyle='#3a2da0';g.lineWidth=4.5;g.lineCap='round';
+    g.beginPath();g.moveTo(256,305);g.lineTo(256,284);g.stroke();
+    g.strokeStyle='#f72585';g.lineWidth=4;
+    g.beginPath();g.moveTo(256,305);g.lineTo(272,314);g.stroke();
+    g.fillStyle='#3a2da0';circ(256,305,5);g.fill();
+    // export
+    const png=cv.toDataURL('image/png');
+    const li=document.createElement('link');li.rel='apple-touch-icon';li.href=png;document.head.appendChild(li);
+    const lf=document.createElement('link');lf.rel='icon';lf.type='image/png';lf.href=png;document.head.appendChild(lf);
+  } catch(e) { console.warn('Icon draw error',e); }
+});
 </script>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --bg: #fff8fe;
-    --bg2: #fff0fa;
-    --bg3: #fce8ff;
-    --purple: #9b5de5;
-    --purple-soft: #b06af0;
-    --yellow: #f9c74f;
-    --pink: #f72585;
-    --teal: #00b4d8;
-    --green: #4cc9a0;
-    --white: #2d1b4e;
-    --muted: #9e82b8;
-    --card: rgba(255,255,255,0.75);
-    --card-border: rgba(180,130,230,0.2);
-    --radius: 18px;
-    --radius-sm: 12px;
-  }
-  * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
-  html, body { height:100%; overflow:hidden; }
-  body {
-    font-family:'Nunito', sans-serif;
-    background: var(--bg);
-    color: var(--white);
-    display: flex;
-    flex-direction: column;
-    height: 100dvh;
-    overflow: hidden;
-  }
+:root{
+  --pu:#9b5de5;--pk:#f72585;--tl:#00b4d8;--gn:#06d6a0;--ye:#ffd60a;--or:#ff6d00;
+  --txt:#2d1b4e;--mut:#a07cc5;
+  --card:rgba(255,255,255,0.82);--cb:rgba(155,93,229,0.18);
+  --r:18px;--rs:12px;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html,body{height:100%;overflow:hidden;}
+body{font-family:'Nunito',sans-serif;color:var(--txt);display:flex;flex-direction:column;height:100dvh;overflow:hidden;background:#fde4ff;}
 
-  /* Bright bubbly background */
-  .stars {
-    position: fixed; inset: 0; pointer-events: none; z-index: 0;
-    background:
-      radial-gradient(ellipse at 15% 10%, rgba(255,200,255,0.55) 0%, transparent 45%),
-      radial-gradient(ellipse at 85% 15%, rgba(200,240,255,0.5) 0%, transparent 40%),
-      radial-gradient(ellipse at 50% 90%, rgba(200,255,220,0.4) 0%, transparent 50%),
-      radial-gradient(ellipse at 90% 70%, rgba(255,230,160,0.35) 0%, transparent 40%);
-  }
-  .stars::before {
-    content: '';
-    position: absolute; inset: 0;
-    background-image:
-      radial-gradient(5px 5px at 8% 12%, rgba(255,180,230,0.8) 0%, transparent 100%),
-      radial-gradient(4px 4px at 22% 35%, rgba(180,220,255,0.7) 0%, transparent 100%),
-      radial-gradient(6px 6px at 38% 8%, rgba(180,255,210,0.7) 0%, transparent 100%),
-      radial-gradient(4px 4px at 58% 25%, rgba(255,220,100,0.6) 0%, transparent 100%),
-      radial-gradient(5px 5px at 72% 55%, rgba(200,170,255,0.7) 0%, transparent 100%),
-      radial-gradient(6px 6px at 88% 18%, rgba(255,180,180,0.6) 0%, transparent 100%),
-      radial-gradient(4px 4px at 92% 72%, rgba(150,220,255,0.6) 0%, transparent 100%),
-      radial-gradient(5px 5px at 48% 78%, rgba(180,255,180,0.5) 0%, transparent 100%),
-      radial-gradient(4px 4px at 12% 68%, rgba(255,200,120,0.6) 0%, transparent 100%),
-      radial-gradient(5px 5px at 33% 52%, rgba(255,160,200,0.5) 0%, transparent 100%);
-  }
+/* ═══ VIBRANT BACKGROUND ═══ */
+.bg-canvas{position:fixed;inset:0;z-index:0;overflow:hidden;}
+.bg-canvas::before{
+  content:'';position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 90% 65% at 10% 0%,  #ffc8ff 0%,transparent 55%),
+    radial-gradient(ellipse 70% 55% at 92% 5%,  #b8ecff 0%,transparent 50%),
+    radial-gradient(ellipse 80% 60% at 0% 80%,  #b8ffd8 0%,transparent 55%),
+    radial-gradient(ellipse 70% 55% at 95% 85%, #fff0b0 0%,transparent 50%),
+    radial-gradient(ellipse 60% 50% at 50% 48%, #ffe4f8 0%,transparent 55%);
+}
+.blob{position:absolute;border-radius:50%;animation:drift 7s ease-in-out infinite alternate;}
+.b1{width:200px;height:200px;top:-30px;left:-40px;background:rgba(255,160,255,0.45);animation-delay:0s;}
+.b2{width:160px;height:160px;top:-20px;right:-30px;background:rgba(140,210,255,0.42);animation-delay:1.8s;}
+.b3{width:140px;height:140px;bottom:-20px;left:-20px;background:rgba(140,255,200,0.42);animation-delay:3.2s;}
+.b4{width:170px;height:170px;bottom:-30px;right:-30px;background:rgba(255,228,100,0.4);animation-delay:0.9s;}
+.b5{width:100px;height:100px;top:38%;left:-10px;background:rgba(255,140,200,0.38);animation-delay:2.4s;}
+.b6{width:110px;height:110px;top:32%;right:-10px;background:rgba(160,180,255,0.38);animation-delay:3.8s;}
+.b7{width:80px;height:80px;top:18%;left:38%;background:rgba(255,240,140,0.35);animation-delay:1.2s;}
+@keyframes drift{from{transform:translate(0,0) scale(1);}to{transform:translate(14px,20px) scale(1.1);}}
 
-  /* Main scroll area */
-  .scroll-area {
-    flex: 1;
-    overflow-y: auto;
-    overflow-x: hidden;
-    -webkit-overflow-scrolling: touch;
-    position: relative;
-    z-index: 1;
-    padding-bottom: env(safe-area-inset-bottom, 20px);
-  }
-  .scroll-area::-webkit-scrollbar { display: none; }
+/* floating emoji */
+.floats{position:absolute;inset:0;pointer-events:none;}
+.fs{position:absolute;animation:floatup 5s ease-in-out infinite alternate;opacity:0.7;}
+.fs:nth-child(1){top:7%;left:10%;font-size:28px;animation-delay:0s;}
+.fs:nth-child(2){top:10%;right:12%;font-size:24px;animation-delay:1.2s;}
+.fs:nth-child(3){top:44%;left:5%;font-size:20px;animation-delay:2.3s;}
+.fs:nth-child(4){top:40%;right:6%;font-size:22px;animation-delay:0.6s;}
+.fs:nth-child(5){bottom:20%;left:12%;font-size:26px;animation-delay:1.8s;}
+.fs:nth-child(6){bottom:16%;right:10%;font-size:20px;animation-delay:2.8s;}
+.fs:nth-child(7){top:22%;left:30%;font-size:16px;animation-delay:3.4s;}
+.fs:nth-child(8){bottom:32%;right:28%;font-size:16px;animation-delay:0.3s;}
+@keyframes floatup{from{transform:translateY(0) rotate(0deg);}to{transform:translateY(-18px) rotate(15deg);}}
 
-  /* Clock section */
-  .clock-section {
-    text-align: center;
-    padding: 28px 20px 16px;
-  }
-  .clock-face {
-    font-family: 'Space Mono', monospace;
-    font-size: clamp(52px, 18vw, 76px);
-    font-weight: 700;
-    letter-spacing: -2px;
-    background: linear-gradient(135deg, #9b5de5, #f72585);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    line-height: 1;
-    margin-bottom: 6px;
-  }
-  .clock-date {
-    font-size: 14px;
-    color: var(--muted);
-    font-weight: 600;
-    letter-spacing: 0.05em;
-  }
+/* ═══ SCROLL ═══ */
+.scroll-area{flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;position:relative;z-index:1;padding-bottom:env(safe-area-inset-bottom,20px);}
+.scroll-area::-webkit-scrollbar{display:none;}
 
-  /* Tabs */
-  .tab-bar {
-    display: flex;
-    gap: 6px;
-    padding: 0 16px 14px;
-    position: sticky; top: 0;
-    z-index: 10;
-  }
-  .tab-bar::before {
-    content: '';
-    position: absolute;
-    inset: -10px -20px 0;
-    background: linear-gradient(to bottom, var(--bg) 70%, transparent);
-    z-index: -1;
-  }
-  .tab-btn {
-    flex: 1;
-    padding: 9px 4px;
-    border-radius: 30px;
-    border: 1.5px solid rgba(155,93,229,0.2);
-    background: rgba(255,255,255,0.6);
-    color: var(--muted);
-    font-family: 'Nunito', sans-serif;
-    font-size: 13px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: all 0.2s;
-  }
-  .tab-btn.active {
-    background: linear-gradient(135deg, #9b5de5, #f72585);
-    border-color: transparent;
-    color: white;
-  }
+/* ═══ CLOCK ═══ */
+.clock-section{text-align:center;padding:22px 20px 10px;}
+.alien-wobble{font-size:48px;line-height:1;margin-bottom:2px;display:inline-block;animation:wobble 2.8s ease-in-out infinite;}
+@keyframes wobble{0%,100%{transform:rotate(-5deg) scale(1);}50%{transform:rotate(5deg) scale(1.06);}}
+.clock-face{font-family:'Space Mono',monospace;font-size:clamp(48px,16vw,70px);font-weight:700;letter-spacing:-2px;background:linear-gradient(135deg,#9b5de5,#f72585);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1;margin-bottom:3px;}
+.clock-date{font-size:13px;color:var(--mut);font-weight:700;}
 
-  /* Panels */
-  .panel { display: none; padding: 0 16px; }
-  .panel.active { display: block; }
+/* ═══ TABS ═══ */
+.tab-bar{display:flex;gap:6px;padding:10px 16px 12px;position:sticky;top:0;z-index:10;}
+.tab-bar::before{content:'';position:absolute;inset:-4px -4px 0;background:linear-gradient(to bottom,rgba(253,228,255,0.97) 60%,transparent);z-index:-1;}
+.tab-btn{flex:1;padding:9px 2px;border-radius:30px;border:1.5px solid rgba(155,93,229,0.22);background:rgba(255,255,255,0.7);color:var(--mut);font-family:'Nunito',sans-serif;font-size:12px;font-weight:800;cursor:pointer;transition:all .2s;}
+.tab-btn.active{background:linear-gradient(135deg,var(--pu),var(--pk));border-color:transparent;color:white;}
 
-  /* Section label */
-  .sec-label {
-    font-size: 11px;
-    font-weight: 800;
-    letter-spacing: 0.1em;
-    color: var(--muted);
-    text-transform: uppercase;
-    margin: 14px 0 8px;
-  }
+/* ═══ PANELS ═══ */
+.panel{display:none;padding:0 16px;}
+.panel.active{display:block;}
+.sec-lbl{font-size:11px;font-weight:800;letter-spacing:.1em;color:var(--mut);text-transform:uppercase;margin:14px 0 8px;}
+.card{background:var(--card);border:1px solid var(--cb);border-radius:var(--r);padding:14px 16px;margin-bottom:10px;backdrop-filter:blur(10px);}
 
-  /* Cards */
-  .card {
-    background: var(--card);
-    border: 1px solid var(--card-border);
-    border-radius: var(--radius);
-    padding: 14px 16px;
-    margin-bottom: 10px;
-  }
+/* ═══ ALARM LIST ═══ */
+.alarm-item{display:flex;align-items:center;gap:12px;padding:13px 14px;background:rgba(255,255,255,0.78);border:1.5px solid var(--cb);border-radius:var(--r);margin-bottom:8px;backdrop-filter:blur(8px);transition:border-color .2s;}
+.alarm-item.on{border-color:rgba(155,93,229,0.45);background:rgba(255,255,255,0.93);}
+.alarm-emoji{font-size:26px;flex-shrink:0;}
+.alarm-info{flex:1;min-width:0;}
+.alarm-time-text{font-family:'Space Mono',monospace;font-size:26px;font-weight:700;color:var(--txt);line-height:1;}
+.alarm-sub{font-size:12px;color:var(--mut);font-weight:600;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.alarm-music-tag{font-size:12px;color:var(--pu);font-weight:700;}
+.alarm-actions{display:flex;align-items:center;gap:7px;flex-shrink:0;}
+.icon-btn{width:30px;height:30px;border-radius:50%;border:1px solid var(--cb);background:transparent;color:var(--mut);font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+.icon-btn:active{background:rgba(155,93,229,0.12);}
 
-  /* Alarm list */
-  .alarm-item {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 14px 16px;
-    background: var(--card);
-    border: 1px solid var(--card-border);
-    border-radius: var(--radius);
-    margin-bottom: 8px;
-    transition: border-color 0.2s;
-  }
-  .alarm-item.on { border-color: rgba(155,93,229,0.4); background: rgba(255,255,255,0.9); }
-  .alarm-emoji { font-size: 28px; flex-shrink: 0; }
-  .alarm-info { flex: 1; min-width: 0; }
-  .alarm-time-text {
-    font-family: 'Space Mono', monospace;
-    font-size: 26px;
-    font-weight: 700;
-    color: #2d1b4e;
-    line-height: 1;
-  }
-  .alarm-sub { font-size: 12px; color: var(--muted); font-weight: 600; margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .alarm-music-tag { font-size: 12px; color: var(--purple); font-weight: 700; }
-  .alarm-actions { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
-  .del-btn {
-    width: 30px; height: 30px;
-    border-radius: 50%;
-    border: 1px solid rgba(155,93,229,0.2);
-    background: transparent;
-    color: var(--muted);
-    font-size: 14px;
-    cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
-  }
-  .del-btn:active { background: rgba(247,37,133,0.1); color: var(--pink); }
+/* ═══ TOGGLE ═══ */
+.toggle{position:relative;width:46px;height:26px;flex-shrink:0;}
+.toggle input{position:absolute;opacity:0;width:0;height:0;}
+.toggle-track{position:absolute;inset:0;border-radius:13px;background:rgba(155,93,229,0.12);border:1px solid rgba(155,93,229,0.22);transition:.25s;cursor:pointer;}
+.toggle input:checked~.toggle-track{background:linear-gradient(135deg,var(--pu),var(--pk));border-color:transparent;}
+.toggle-thumb{position:absolute;width:20px;height:20px;border-radius:50%;background:white;top:3px;left:3px;transition:.25s;pointer-events:none;box-shadow:0 1px 4px rgba(0,0,0,0.2);}
+.toggle input:checked~.toggle-thumb{transform:translateX(20px);}
 
-  /* Toggle switch */
-  .toggle { position: relative; width: 46px; height: 26px; flex-shrink: 0; }
-  .toggle input { position: absolute; opacity: 0; width: 0; height: 0; }
-  .toggle-track {
-    position: absolute; inset: 0;
-    border-radius: 13px;
-    background: rgba(155,93,229,0.12);
-    border: 1px solid rgba(155,93,229,0.2);
-    transition: 0.25s;
-    cursor: pointer;
-  }
-  .toggle input:checked ~ .toggle-track {
-    background: linear-gradient(135deg, #9b5de5, #f72585);
-    border-color: transparent;
-  }
-  .toggle-thumb {
-    position: absolute;
-    width: 20px; height: 20px;
-    border-radius: 50%;
-    background: white;
-    top: 3px; left: 3px;
-    transition: 0.25s;
-    pointer-events: none;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.3);
-  }
-  .toggle input:checked ~ .toggle-thumb { transform: translateX(20px); }
+/* ═══ TIME PICKER ═══ */
+.time-picker{display:flex;align-items:center;justify-content:center;gap:8px;padding:8px 0;}
+.tp-inp{width:80px;height:68px;font-family:'Space Mono',monospace;font-size:34px;font-weight:700;text-align:center;background:rgba(255,255,255,0.9);border:1.5px solid rgba(155,93,229,0.28);border-radius:var(--rs);color:var(--txt);-moz-appearance:textfield;}
+.tp-inp:focus{outline:none;border-color:var(--pu);}
+.tp-inp::-webkit-inner-spin-button,.tp-inp::-webkit-outer-spin-button{display:none;}
+.colon-sep{font-family:'Space Mono',monospace;font-size:34px;font-weight:700;color:var(--pu);}
 
-  /* Time picker */
-  .time-picker {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    padding: 8px 0;
-  }
-  .time-picker input[type=number] {
-    width: 80px; height: 70px;
-    font-family: 'Space Mono', monospace;
-    font-size: 36px;
-    font-weight: 700;
-    text-align: center;
-    background: rgba(255,255,255,0.8);
-    border: 1.5px solid rgba(155,93,229,0.25);
-    border-radius: var(--radius-sm);
-    color: #2d1b4e;
-    -moz-appearance: textfield;
-  }
-  .time-picker input:focus { outline: none; border-color: var(--purple); }
-  .time-picker input::-webkit-inner-spin-button,
-  .time-picker input::-webkit-outer-spin-button { display: none; }
-  .colon-sep { font-family: 'Space Mono', monospace; font-size: 36px; font-weight: 700; color: var(--purple); }
+/* ═══ DAYS ═══ */
+.days-row{display:flex;gap:5px;justify-content:space-between;}
+.day-pill{flex:1;height:38px;border-radius:10px;border:1.5px solid rgba(155,93,229,0.2);background:rgba(255,255,255,0.55);color:var(--mut);font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s;}
+.day-pill.on{background:linear-gradient(135deg,rgba(155,93,229,0.2),rgba(247,37,133,0.14));border-color:rgba(155,93,229,0.48);color:var(--pu);}
 
-  /* Day selector */
-  .days-row { display: flex; gap: 6px; justify-content: space-between; }
-  .day-pill {
-    flex: 1;
-    height: 38px;
-    border-radius: 10px;
-    border: 1.5px solid rgba(155,93,229,0.2);
-    background: rgba(255,255,255,0.6);
-    color: var(--muted);
-    font-family: 'Nunito', sans-serif;
-    font-size: 13px;
-    font-weight: 800;
-    cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
-    transition: all 0.15s;
-  }
-  .day-pill.on {
-    background: linear-gradient(135deg, rgba(155,93,229,0.18), rgba(247,37,133,0.12));
-    border-color: rgba(155,93,229,0.45);
-    color: var(--purple);
-  }
+/* ═══ MUSIC ═══ */
+.music-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;}
+.music-card{padding:11px 8px;border-radius:var(--rs);border:1.5px solid rgba(155,93,229,0.18);background:rgba(255,255,255,0.65);cursor:pointer;text-align:center;transition:all .15s;position:relative;}
+.music-card.picked{border-color:var(--pu);background:rgba(155,93,229,0.11);}
+.music-card.picked::after{content:'✓';position:absolute;top:5px;right:7px;font-size:12px;color:var(--pu);font-weight:900;}
+.music-icon{font-size:26px;margin-bottom:3px;}
+.music-name{font-size:13px;font-weight:800;color:var(--txt);line-height:1.2;}
+.music-from{font-size:11px;color:var(--mut);margin-top:1px;font-weight:600;}
 
-  /* Music grid */
-  .music-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 8px;
-  }
-  .music-card {
-    padding: 12px 10px;
-    border-radius: var(--radius-sm);
-    border: 1.5px solid rgba(155,93,229,0.18);
-    background: rgba(255,255,255,0.65);
-    cursor: pointer;
-    text-align: center;
-    transition: all 0.15s;
-    position: relative;
-  }
-  .music-card.picked {
-    border-color: var(--purple);
-    background: rgba(155,93,229,0.1);
-  }
-  .music-card.picked::after {
-    content: '✓';
-    position: absolute;
-    top: 6px; right: 8px;
-    font-size: 12px;
-    color: var(--purple);
-    font-weight: 900;
-  }
-  .music-icon { font-size: 28px; margin-bottom: 4px; }
-  .music-name { font-size: 13px; font-weight: 800; color: #2d1b4e; line-height: 1.2; }
-  .music-from { font-size: 11px; color: var(--muted); margin-top: 2px; font-weight: 600; }
+/* ═══ VOLUME ═══ */
+.vol-row{display:flex;align-items:center;gap:12px;}
+.vol-row input[type=range]{flex:1;height:6px;border-radius:3px;appearance:none;-webkit-appearance:none;background:rgba(155,93,229,0.15);outline:none;}
+.vol-row input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:linear-gradient(135deg,var(--pu),var(--pk));cursor:pointer;box-shadow:0 2px 8px rgba(155,93,229,0.35);}
+.vol-num{font-size:14px;font-weight:700;color:var(--pu);min-width:38px;text-align:right;}
 
-  /* Volume */
-  .vol-row { display: flex; align-items: center; gap: 12px; }
-  .vol-row input[type=range] {
-    flex: 1;
-    height: 6px;
-    border-radius: 3px;
-    appearance: none;
-    -webkit-appearance: none;
-    background: rgba(155,93,229,0.15);
-    outline: none;
-  }
-  .vol-row input[type=range]::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    width: 22px; height: 22px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, #9b5de5, #f72585);
-    cursor: pointer;
-    box-shadow: 0 2px 8px rgba(155,93,229,0.35);
-  }
-  .vol-num { font-size: 14px; font-weight: 700; color: var(--purple); min-width: 38px; text-align: right; }
+/* ═══ SAVE BTN ═══ */
+.save-btn{width:100%;padding:15px;border-radius:var(--r);border:none;background:linear-gradient(135deg,var(--pu),var(--pk));color:white;font-family:'Nunito',sans-serif;font-size:16px;font-weight:900;cursor:pointer;margin:14px 0;box-shadow:0 4px 18px rgba(155,93,229,0.3);}
+.save-btn:active{transform:scale(0.98);}
 
-  /* Save button */
-  .save-btn {
-    width: 100%;
-    padding: 15px;
-    border-radius: var(--radius);
-    border: none;
-    background: linear-gradient(135deg, var(--purple-soft), var(--pink));
-    color: white;
-    font-family: 'Nunito', sans-serif;
-    font-size: 16px;
-    font-weight: 900;
-    cursor: pointer;
-    margin: 14px 0;
-    letter-spacing: 0.02em;
-    box-shadow: 0 4px 20px rgba(168,85,247,0.35);
-    active-transform: scale(0.98);
-  }
-  .save-btn:active { transform: scale(0.98); }
+/* ═══ EMPTY ═══ */
+.empty-state{text-align:center;padding:36px 20px;color:var(--mut);}
+.empty-icon{font-size:48px;margin-bottom:10px;}
+.empty-text{font-size:15px;font-weight:700;}
+.empty-sub{font-size:13px;margin-top:4px;opacity:.7;}
 
-  /* Empty state */
-  .empty-state {
-    text-align: center;
-    padding: 40px 20px;
-    color: var(--muted);
-  }
-  .empty-icon { font-size: 48px; margin-bottom: 12px; }
-  .empty-text { font-size: 15px; font-weight: 700; }
-  .empty-sub { font-size: 13px; margin-top: 4px; opacity: 0.7; }
+/* ═══ NEXT BANNER ═══ */
+.next-banner{background:linear-gradient(135deg,rgba(155,93,229,0.1),rgba(247,37,133,0.07));border:1px solid rgba(155,93,229,0.25);border-radius:var(--rs);padding:10px 14px;display:flex;align-items:center;gap:10px;margin-bottom:12px;}
+.nb-icon{font-size:18px;}
+.nb-text{font-size:13px;font-weight:700;color:var(--pu);}
 
-  /* Custom URL */
-  .url-input-row { display: flex; gap: 8px; }
-  .url-input-row input[type=text] {
-    flex: 1;
-    height: 44px;
-    background: rgba(255,255,255,0.8);
-    border: 1.5px solid rgba(155,93,229,0.2);
-    border-radius: var(--radius-sm);
-    color: #2d1b4e;
-    font-family: 'Nunito', sans-serif;
-    font-size: 13px;
-    padding: 0 12px;
-  }
-  .url-input-row input:focus { outline: none; border-color: var(--purple); }
-  .url-add-btn {
-    height: 44px; padding: 0 16px;
-    border-radius: var(--radius-sm);
-    border: 1.5px solid var(--purple);
-    background: transparent;
-    color: var(--purple);
-    font-family: 'Nunito', sans-serif;
-    font-size: 14px; font-weight: 800;
-    cursor: pointer;
-  }
+/* ═══ SETTINGS inputs ═══ */
+.url-row{display:flex;gap:8px;}
+.url-row input[type=text]{flex:1;height:44px;background:rgba(255,255,255,0.9);border:1.5px solid rgba(155,93,229,0.22);border-radius:var(--rs);color:var(--txt);font-family:'Nunito',sans-serif;font-size:13px;padding:0 12px;}
+.url-row input:focus{outline:none;border-color:var(--pu);}
+.url-add{height:44px;padding:0 16px;border-radius:var(--rs);border:1.5px solid var(--pu);background:transparent;color:var(--pu);font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;cursor:pointer;}
+.snooze-row{display:flex;align-items:center;gap:12px;}
+.snooze-row input[type=number]{width:70px;height:44px;background:rgba(255,255,255,0.9);border:1.5px solid rgba(155,93,229,0.22);border-radius:var(--rs);color:var(--txt);font-family:'Space Mono',monospace;font-size:20px;font-weight:700;text-align:center;-moz-appearance:textfield;}
+.snooze-row input::-webkit-inner-spin-button,.snooze-row input::-webkit-outer-spin-button{display:none;}
+.snooze-row span{font-size:14px;color:var(--mut);font-weight:700;}
 
-  /* Ringing overlay */
-  #ringing-screen {
-    display: none;
-    position: fixed; inset: 0; z-index: 100;
-    background: linear-gradient(160deg, #fff0fa 0%, #e8f7ff 50%, #f0ffe8 100%);
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 40px 24px;
-  }
-  #ringing-screen.show { display: flex; }
-  .ring-stars {
-    position: absolute; inset: 0;
-    background:
-      radial-gradient(ellipse at 20% 20%, rgba(255,180,230,0.45) 0%, transparent 50%),
-      radial-gradient(ellipse at 80% 75%, rgba(180,220,255,0.4) 0%, transparent 50%),
-      radial-gradient(ellipse at 50% 100%, rgba(180,255,200,0.35) 0%, transparent 45%);
-    pointer-events: none;
-  }
-  .ring-emoji {
-    font-size: 72px;
-    margin-bottom: 16px;
-    animation: bounce 0.6s ease-in-out infinite alternate;
-    position: relative; z-index: 1;
-  }
-  @keyframes bounce {
-    from { transform: translateY(0) scale(1); }
-    to { transform: translateY(-12px) scale(1.05); }
-  }
-  .ring-time {
-    font-family: 'Space Mono', monospace;
-    font-size: 72px;
-    font-weight: 700;
-    background: linear-gradient(135deg, #9b5de5, #f72585);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    line-height: 1;
-    margin-bottom: 8px;
-    position: relative; z-index: 1;
-  }
-  .ring-label {
-    font-size: 16px;
-    font-weight: 700;
-    color: var(--muted);
-    margin-bottom: 48px;
-    position: relative; z-index: 1;
-  }
-  .ring-btns { display: flex; flex-direction: column; gap: 12px; width: 100%; max-width: 300px; position: relative; z-index: 1; }
-  .stop-btn {
-    width: 100%; padding: 18px;
-    border-radius: var(--radius);
-    border: none;
-    background: linear-gradient(135deg, #9b5de5, #f72585);
-    color: white;
-    font-family: 'Nunito', sans-serif;
-    font-size: 18px; font-weight: 900;
-    cursor: pointer;
-    box-shadow: 0 6px 20px rgba(155,93,229,0.3);
-  }
-  .snooze-btn {
-    width: 100%; padding: 16px;
-    border-radius: var(--radius);
-    border: 1.5px solid rgba(155,93,229,0.25);
-    background: rgba(255,255,255,0.7);
-    color: #2d1b4e;
-    font-family: 'Nunito', sans-serif;
-    font-size: 16px; font-weight: 800;
-    cursor: pointer;
-  }
+/* ═══ RINGING ═══ */
+#ring-screen{display:none;position:fixed;inset:0;z-index:200;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px 24px;
+  background:linear-gradient(160deg,#ffeaff 0%,#dff3ff 45%,#e4ffed 100%);}
+#ring-screen.show{display:flex;}
+.ring-bg{position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(ellipse at 20% 15%,rgba(255,170,230,0.5) 0%,transparent 50%),
+             radial-gradient(ellipse at 80% 80%,rgba(160,220,255,0.45) 0%,transparent 50%),
+             radial-gradient(ellipse at 50% 100%,rgba(160,255,200,0.4) 0%,transparent 45%);}
+.ring-emoji{font-size:84px;margin-bottom:10px;animation:rb .5s ease-in-out infinite alternate;position:relative;z-index:1;}
+@keyframes rb{from{transform:translateY(0) rotate(-6deg);}to{transform:translateY(-16px) rotate(6deg);}}
+.ring-time{font-family:'Space Mono',monospace;font-size:70px;font-weight:700;background:linear-gradient(135deg,var(--pu),var(--pk));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1;margin-bottom:6px;position:relative;z-index:1;}
+.ring-label{font-size:16px;font-weight:800;color:var(--mut);margin-bottom:44px;position:relative;z-index:1;}
+.ring-btns{display:flex;flex-direction:column;gap:12px;width:100%;max-width:300px;position:relative;z-index:1;}
+.stop-btn{width:100%;padding:18px;border-radius:var(--r);border:none;background:linear-gradient(135deg,var(--pu),var(--pk));color:white;font-family:'Nunito',sans-serif;font-size:18px;font-weight:900;cursor:pointer;box-shadow:0 6px 20px rgba(155,93,229,0.3);}
+.snooze-btn{width:100%;padding:15px;border-radius:var(--r);border:1.5px solid rgba(155,93,229,0.25);background:rgba(255,255,255,0.75);color:var(--txt);font-family:'Nunito',sans-serif;font-size:16px;font-weight:800;cursor:pointer;}
 
-  /* Snooze settings */
-  .snooze-row { display: flex; align-items: center; gap: 12px; }
-  .snooze-row input[type=number] {
-    width: 70px; height: 44px;
-    background: rgba(255,255,255,0.8);
-    border: 1.5px solid rgba(155,93,229,0.25);
-    border-radius: var(--radius-sm);
-    color: #2d1b4e;
-    font-family: 'Space Mono', monospace;
-    font-size: 20px; font-weight: 700;
-    text-align: center;
-    -moz-appearance: textfield;
-  }
-  .snooze-row input::-webkit-inner-spin-button,
-  .snooze-row input::-webkit-outer-spin-button { display: none; }
-  .snooze-row span { font-size: 14px; color: var(--muted); font-weight: 700; }
+/* ═══ EDIT MODAL ═══ */
+#edit-modal{display:none;position:fixed;inset:0;z-index:150;background:rgba(80,30,120,0.32);align-items:flex-end;justify-content:center;}
+#edit-modal.show{display:flex;}
+.modal-sheet{background:#fff4fe;border-radius:26px 26px 0 0;padding:20px 18px calc(30px + env(safe-area-inset-bottom,0px));width:100%;max-width:480px;max-height:90dvh;overflow-y:auto;}
+.modal-handle{width:40px;height:4px;background:rgba(155,93,229,0.25);border-radius:2px;margin:0 auto 16px;}
+.modal-title{font-size:17px;font-weight:900;color:var(--txt);margin-bottom:4px;text-align:center;}
+.modal-footer{display:flex;gap:10px;margin-top:16px;}
+.m-cancel{flex:1;padding:13px;border-radius:var(--r);border:1.5px solid rgba(155,93,229,0.25);background:transparent;color:var(--mut);font-family:'Nunito',sans-serif;font-size:15px;font-weight:800;cursor:pointer;}
+.m-save{flex:2;padding:13px;border-radius:var(--r);border:none;background:linear-gradient(135deg,var(--pu),var(--pk));color:white;font-family:'Nunito',sans-serif;font-size:15px;font-weight:900;cursor:pointer;}
 
-  /* Next alarm banner */
-  .next-banner {
-    background: linear-gradient(135deg, rgba(155,93,229,0.1), rgba(247,37,133,0.07));
-    border: 1px solid rgba(155,93,229,0.25);
-    border-radius: var(--radius-sm);
-    padding: 10px 14px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 14px;
-  }
-  .next-banner .icon { font-size: 18px; }
-  .next-banner .text { font-size: 13px; font-weight: 700; color: var(--purple); }
-
-  /* Scroll content bottom padding */
-  .bottom-pad { height: 24px; }
+.bottom-pad{height:28px;}
 </style>
 </head>
 <body>
 
-<div class="stars"></div>
+<div class="bg-canvas">
+  <div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
+  <div class="blob b4"></div><div class="blob b5"></div><div class="blob b6"></div>
+  <div class="blob b7"></div>
+  <div class="floats">
+    <span class="fs">⭐</span><span class="fs">🌸</span><span class="fs">💫</span>
+    <span class="fs">🌈</span><span class="fs">✨</span><span class="fs">🍭</span>
+    <span class="fs">🎵</span><span class="fs">🌟</span>
+  </div>
+</div>
 
 <div class="scroll-area">
 
   <div class="clock-section">
+    <div><span class="alien-wobble">👾</span></div>
     <div class="clock-face" id="clock">00:00:00</div>
     <div class="clock-date" id="date-str"></div>
   </div>
 
   <div class="tab-bar">
     <button class="tab-btn active" id="tab-list-btn" onclick="switchTab('list')">⏰ 鬧鐘</button>
-    <button class="tab-btn" id="tab-add-btn" onclick="switchTab('add')">＋ 新增</button>
-    <button class="tab-btn" id="tab-settings-btn" onclick="switchTab('settings')">⚙️ 設定</button>
+    <button class="tab-btn" id="tab-add-btn"  onclick="switchTab('add')">＋ 新增</button>
+    <button class="tab-btn" id="tab-cfg-btn"  onclick="switchTab('settings')">⚙️ 設定</button>
   </div>
 
-  <!-- LIST PANEL -->
+  <!-- LIST -->
   <div class="panel active" id="panel-list">
     <div id="next-banner"></div>
     <div id="alarm-list"></div>
     <div class="bottom-pad"></div>
   </div>
 
-  <!-- ADD PANEL -->
+  <!-- ADD -->
   <div class="panel" id="panel-add">
-    <div class="sec-label">起床時間</div>
+    <div class="sec-lbl">起床時間</div>
     <div class="card" style="padding:16px">
       <div class="time-picker">
-        <input type="number" id="inp-h" min="0" max="23" value="07">
+        <input type="number" class="tp-inp" id="a-h" min="0" max="23" value="07">
         <span class="colon-sep">:</span>
-        <input type="number" id="inp-m" min="0" max="59" value="00">
+        <input type="number" class="tp-inp" id="a-m" min="0" max="59" value="00">
       </div>
     </div>
-
-    <div class="sec-label">重複日期</div>
+    <div class="sec-lbl">重複日期</div>
     <div class="card" style="padding:12px">
-      <div class="days-row" id="days-row">
+      <div class="days-row" id="add-days">
         <button class="day-pill on" data-d="0">日</button>
         <button class="day-pill on" data-d="1">一</button>
         <button class="day-pill on" data-d="2">二</button>
@@ -600,335 +322,363 @@
         <button class="day-pill on" data-d="6">六</button>
       </div>
     </div>
-
-    <div class="sec-label">起床音樂 🎵</div>
-    <div class="music-grid" id="music-grid"></div>
-
-    <div class="sec-label">音量</div>
+    <div class="sec-lbl">起床音樂 🎵</div>
+    <div class="music-grid" id="add-music"></div>
+    <div class="sec-lbl">音量</div>
     <div class="card">
       <div class="vol-row">
         <span style="font-size:18px">🔈</span>
-        <input type="range" min="0" max="100" value="80" step="1" id="vol-range"
-          oninput="document.getElementById('vol-disp').textContent=this.value+'%'">
-        <span class="vol-num" id="vol-disp">80%</span>
+        <input type="range" min="0" max="100" value="80" step="1" id="a-vol" oninput="document.getElementById('a-vol-d').textContent=this.value+'%'">
+        <span class="vol-num" id="a-vol-d">80%</span>
       </div>
     </div>
-
     <button class="save-btn" onclick="saveAlarm()">✨ 儲存鬧鐘</button>
     <div class="bottom-pad"></div>
   </div>
 
-  <!-- SETTINGS PANEL -->
+  <!-- SETTINGS -->
   <div class="panel" id="panel-settings">
-    <div class="sec-label">貪睡時間</div>
+    <div class="sec-lbl">貪睡時間</div>
     <div class="card">
       <div class="snooze-row">
         <input type="number" id="snooze-inp" min="1" max="30" value="5">
         <span>分鐘後再響</span>
       </div>
     </div>
-
-    <div class="sec-label">自訂 YouTube 音樂連結</div>
+    <div class="sec-lbl">自訂音樂（YouTube 連結）</div>
     <div class="card">
-      <div class="url-input-row" style="margin-bottom:10px">
+      <div class="url-row" style="margin-bottom:10px">
         <input type="text" id="yt-url" placeholder="貼上 YouTube 網址…">
-        <button class="url-add-btn" onclick="addCustom()">加入</button>
+        <button class="url-add" onclick="addCustom()">加入</button>
       </div>
       <div id="custom-list"></div>
     </div>
-
-    <div class="sec-label">重置</div>
+    <div class="sec-lbl">重置</div>
     <div class="card">
-      <button onclick="clearAll()" style="width:100%;padding:12px;border-radius:10px;border:1px solid rgba(244,114,182,0.4);background:rgba(244,114,182,0.08);color:var(--pink);font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;cursor:pointer;">刪除所有鬧鐘</button>
+      <button onclick="clearAll()" style="width:100%;padding:12px;border-radius:10px;border:1px solid rgba(247,37,133,0.35);background:rgba(247,37,133,0.07);color:var(--pk);font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;cursor:pointer;">刪除所有鬧鐘</button>
     </div>
     <div class="bottom-pad"></div>
   </div>
 
-</div><!-- end scroll-area -->
+</div><!-- /scroll-area -->
 
 <!-- RINGING SCREEN -->
-<div id="ringing-screen">
-  <div class="ring-stars"></div>
-  <div class="ring-emoji" id="ring-emoji">🌟</div>
-  <div class="ring-time" id="ring-time">07:00</div>
-  <div class="ring-label" id="ring-label">起床囉！</div>
+<div id="ring-screen">
+  <div class="ring-bg"></div>
+  <div class="ring-emoji" id="r-emoji">👾</div>
+  <div class="ring-time"  id="r-time">07:00</div>
+  <div class="ring-label" id="r-label">起床囉！</div>
   <div class="ring-btns">
-    <button class="stop-btn" onclick="stopAlarm()">關掉鬧鐘 ✓</button>
+    <button class="stop-btn"   onclick="stopAlarm()">關掉鬧鐘 ✓</button>
     <button class="snooze-btn" id="snooze-btn" onclick="doSnooze()">💤 再睡一下</button>
   </div>
 </div>
 
+<!-- EDIT MODAL -->
+<div id="edit-modal">
+  <div class="modal-sheet">
+    <div class="modal-handle"></div>
+    <div class="modal-title">✏️ 編輯鬧鐘</div>
+    <div class="sec-lbl">起床時間</div>
+    <div class="card" style="padding:14px">
+      <div class="time-picker">
+        <input type="number" class="tp-inp" id="e-h" min="0" max="23" value="07">
+        <span class="colon-sep">:</span>
+        <input type="number" class="tp-inp" id="e-m" min="0" max="59" value="00">
+      </div>
+    </div>
+    <div class="sec-lbl">重複日期</div>
+    <div class="card" style="padding:12px">
+      <div class="days-row" id="edit-days">
+        <button class="day-pill on" data-d="0">日</button>
+        <button class="day-pill on" data-d="1">一</button>
+        <button class="day-pill on" data-d="2">二</button>
+        <button class="day-pill on" data-d="3">三</button>
+        <button class="day-pill on" data-d="4">四</button>
+        <button class="day-pill on" data-d="5">五</button>
+        <button class="day-pill on" data-d="6">六</button>
+      </div>
+    </div>
+    <div class="sec-lbl">起床音樂</div>
+    <div class="music-grid" id="edit-music"></div>
+    <div class="sec-lbl">音量</div>
+    <div class="card">
+      <div class="vol-row">
+        <span style="font-size:18px">🔈</span>
+        <input type="range" min="0" max="100" value="80" step="1" id="e-vol" oninput="document.getElementById('e-vol-d').textContent=this.value+'%'">
+        <span class="vol-num" id="e-vol-d">80%</span>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="m-cancel" onclick="closeEdit()">取消</button>
+      <button class="m-save"   onclick="applyEdit()">儲存 ✓</button>
+    </div>
+  </div>
+</div>
+
 <script>
-const MUSIC = [
-  {id:'shark', icon:'🦈', name:'Baby Shark', from:'碰碰狐', yt:'https://www.youtube.com/watch?v=XqZsoesa55w'},
-  {id:'frozen', icon:'❄️', name:'Let It Go', from:'冰雪奇緣', yt:'https://www.youtube.com/watch?v=L0MK7qz13bU'},
-  {id:'paw', icon:'🐾', name:'汪汪隊', from:'PAW Patrol', yt:'https://www.youtube.com/watch?v=MRJBeKDSMvE'},
-  {id:'moana', icon:'🌊', name:'How Far I\'ll Go', from:'海洋奇緣', yt:'https://www.youtube.com/watch?v=cPAbx5kgCJo'},
-  {id:'pokemon', icon:'⚡', name:'神奇寶貝', from:'主題曲', yt:'https://www.youtube.com/watch?v=JuYeHPFR3f0'},
-  {id:'encanto', icon:'🦋', name:'We Don\'t Talk…', from:'魔法滿屋', yt:'https://www.youtube.com/watch?v=bvWRMAU6V-c'},
-  {id:'lion', icon:'🦁', name:'Hakuna Matata', from:'獅子王', yt:'https://www.youtube.com/watch?v=xB5ceAruYrI'},
-  {id:'totoro', icon:'🌿', name:'さんぽ', from:'龍貓', yt:'https://www.youtube.com/watch?v=VLfvX7o3gF0'},
+/* ── DATA ── */
+const MUSIC=[
+  {id:'shark', icon:'🦈',name:'Baby Shark',    from:'碰碰狐'},
+  {id:'frozen',icon:'❄️',name:'Let It Go',      from:'冰雪奇緣'},
+  {id:'paw',   icon:'🐾',name:'汪汪隊',          from:'PAW Patrol'},
+  {id:'moana', icon:'🌊',name:"How Far I'll Go",from:'海洋奇緣'},
+  {id:'poke',  icon:'⚡',name:'神奇寶貝',        from:'主題曲'},
+  {id:'enc',   icon:'🦋',name:"We Don't Talk…", from:'魔法滿屋'},
+  {id:'lion',  icon:'🦁',name:'Hakuna Matata',  from:'獅子王'},
+  {id:'tot',   icon:'🌿',name:'さんぽ',          from:'龍貓'},
 ];
+let alarms     =JSON.parse(localStorage.getItem('al_v4')||'[]');
+let customMusic=JSON.parse(localStorage.getItem('cm_v4')||'[]');
+let addSel='shark', editSel='shark', editingId=null;
+let ringingId=null, beepIv=null, actx=null, snoozeT=null;
+const TW=['日','一','二','三','四','五','六'];
+const pad=n=>String(Math.max(0,Math.min(99,parseInt(n)||0))).padStart(2,'0');
+const allM=()=>[...MUSIC,...customMusic];
+const byId=id=>allM().find(m=>m.id===id)||MUSIC[0];
+const saveD=()=>{localStorage.setItem('al_v4',JSON.stringify(alarms));localStorage.setItem('cm_v4',JSON.stringify(customMusic));};
 
-let alarms = JSON.parse(localStorage.getItem('alarms_v2') || '[]');
-let customMusic = JSON.parse(localStorage.getItem('custom_music') || '[]');
-let selectedMusicId = MUSIC[0].id;
-let ringingId = null;
-let beepInterval = null;
-let audioCtx = null;
-let snoozeTimer = null;
-
-function save() {
-  localStorage.setItem('alarms_v2', JSON.stringify(alarms));
-  localStorage.setItem('custom_music', JSON.stringify(customMusic));
+/* ── CLOCK ── */
+function tick(){
+  const n=new Date();
+  document.getElementById('clock').textContent=`${pad(n.getHours())}:${pad(n.getMinutes())}:${pad(n.getSeconds())}`;
+  document.getElementById('date-str').textContent=`${n.getFullYear()}年${n.getMonth()+1}月${n.getDate()}日（${TW[n.getDay()]}）`;
+  checkAlarms(n);
 }
+setInterval(tick,1000);tick();
 
-function allMusic() { return [...MUSIC, ...customMusic]; }
-
-function musicById(id) { return allMusic().find(m => m.id === id) || MUSIC[0]; }
-
-function pad(n) { return String(Math.max(0, Math.min(99, parseInt(n)||0))).padStart(2,'0'); }
-
-/* ── Clock ── */
-const DAYS_TW = ['日','一','二','三','四','五','六'];
-function tickClock() {
-  const now = new Date();
-  const h = String(now.getHours()).padStart(2,'0');
-  const m = String(now.getMinutes()).padStart(2,'0');
-  const s = String(now.getSeconds()).padStart(2,'0');
-  document.getElementById('clock').textContent = `${h}:${m}:${s}`;
-  document.getElementById('date-str').textContent =
-    `${now.getFullYear()}年${now.getMonth()+1}月${now.getDate()}日 （${DAYS_TW[now.getDay()]}）`;
-  checkAlarms(now);
-}
-setInterval(tickClock, 1000);
-tickClock();
-
-/* ── Tab switching ── */
-function switchTab(name) {
-  ['list','add','settings'].forEach(t => {
-    document.getElementById('panel-'+t).classList.toggle('active', t===name);
-    document.getElementById('tab-'+t+'-btn').classList.toggle('active', t===name);
+/* ── TABS ── */
+function switchTab(t){
+  ['list','add','settings'].forEach(x=>{
+    document.getElementById('panel-'+x).classList.toggle('active',x===t);
+    document.getElementById('tab-'+(x==='settings'?'cfg':x)+'-btn').classList.toggle('active',x===t);
   });
-  if (name==='add') buildMusicGrid();
+  if(t==='add') renderMusicGrid('add-music',addSel,'add');
 }
 
-/* ── Music grid ── */
-function buildMusicGrid() {
-  const grid = document.getElementById('music-grid');
-  grid.innerHTML = allMusic().map(m => `
-    <div class="music-card ${selectedMusicId===m.id?'picked':''}" onclick="pickMusic('${m.id}')">
+/* ── MUSIC GRIDS ── */
+function renderMusicGrid(gridId, sel, mode){
+  document.getElementById(gridId).innerHTML=allM().map(m=>`
+    <div class="music-card ${sel===m.id?'picked':''}" onclick="pickMusic('${mode}','${m.id}')">
       <div class="music-icon">${m.icon}</div>
       <div class="music-name">${m.name}</div>
       <div class="music-from">${m.from}</div>
     </div>`).join('');
 }
-buildMusicGrid();
-
-function pickMusic(id) {
-  selectedMusicId = id;
-  buildMusicGrid();
+function pickMusic(mode, id){
+  if(mode==='add'){addSel=id;renderMusicGrid('add-music',addSel,'add');}
+  else{editSel=id;renderMusicGrid('edit-music',editSel,'edit');}
 }
 
-/* ── Day pills ── */
-document.querySelectorAll('#days-row .day-pill').forEach(btn => {
-  btn.addEventListener('click', () => btn.classList.toggle('on'));
-});
+/* ── DAYS toggle ── */
+document.querySelectorAll('.day-pill').forEach(b=>b.addEventListener('click',()=>b.classList.toggle('on')));
 
-/* ── Save alarm ── */
-function saveAlarm() {
-  const h = parseInt(document.getElementById('inp-h').value) || 0;
-  const m = parseInt(document.getElementById('inp-m').value) || 0;
-  const days = [...document.querySelectorAll('#days-row .day-pill.on')].map(b=>parseInt(b.dataset.d));
-  if (!days.length) { alert('請至少選一天！'); return; }
-  const vol = parseInt(document.getElementById('vol-range').value);
-  alarms.push({ id: Date.now().toString(), h, m, days, musicId: selectedMusicId, vol, on: true });
-  alarms.sort((a,b) => a.h*60+a.m - (b.h*60+b.m));
-  save();
-  renderList();
-  switchTab('list');
+/* ── SAVE ALARM ── */
+function saveAlarm(){
+  const h=parseInt(document.getElementById('a-h').value)||0;
+  const m=parseInt(document.getElementById('a-m').value)||0;
+  const days=[...document.querySelectorAll('#add-days .day-pill.on')].map(b=>+b.dataset.d);
+  if(!days.length){alert('請至少選一天！');return;}
+  const vol=parseInt(document.getElementById('a-vol').value);
+  alarms.push({id:Date.now().toString(),h,m,days,musicId:addSel,vol,on:true});
+  alarms.sort((a,b)=>a.h*60+a.m-(b.h*60+b.m));
+  saveD();renderList();switchTab('list');
 }
 
-/* ── Render alarm list ── */
-function renderList() {
-  const el = document.getElementById('alarm-list');
-  if (!alarms.length) {
-    el.innerHTML = `<div class="empty-state"><div class="empty-icon">😴</div><div class="empty-text">還沒有鬧鐘</div><div class="empty-sub">點「新增」設定起床時間</div></div>`;
-    document.getElementById('next-banner').innerHTML = '';
-    return;
+/* ── EDIT ── */
+function openEdit(id){
+  const a=alarms.find(x=>x.id===id);if(!a)return;
+  editingId=id;
+  document.getElementById('e-h').value=pad(a.h);
+  document.getElementById('e-m').value=pad(a.m);
+  document.getElementById('e-vol').value=a.vol||80;
+  document.getElementById('e-vol-d').textContent=(a.vol||80)+'%';
+  document.querySelectorAll('#edit-days .day-pill').forEach(b=>b.classList.toggle('on',a.days.includes(+b.dataset.d)));
+  editSel=a.musicId;
+  renderMusicGrid('edit-music',editSel,'edit');
+  document.getElementById('edit-modal').classList.add('show');
+}
+function closeEdit(){editingId=null;document.getElementById('edit-modal').classList.remove('show');}
+function applyEdit(){
+  const a=alarms.find(x=>x.id===editingId);if(!a){closeEdit();return;}
+  a.h=parseInt(document.getElementById('e-h').value)||0;
+  a.m=parseInt(document.getElementById('e-m').value)||0;
+  a.days=[...document.querySelectorAll('#edit-days .day-pill.on')].map(b=>+b.dataset.d);
+  if(!a.days.length){alert('請至少選一天！');return;}
+  a.vol=parseInt(document.getElementById('e-vol').value);
+  a.musicId=editSel;
+  alarms.sort((a,b)=>a.h*60+a.m-(b.h*60+b.m));
+  saveD();renderList();closeEdit();
+}
+document.getElementById('edit-modal').addEventListener('click',e=>{if(e.target===document.getElementById('edit-modal'))closeEdit();});
+
+/* ── RENDER LIST ── */
+function renderList(){
+  const el=document.getElementById('alarm-list');
+  if(!alarms.length){
+    el.innerHTML='<div class="empty-state"><div class="empty-icon">😴</div><div class="empty-text">還沒有鬧鐘</div><div class="empty-sub">點「新增」設定起床時間</div></div>';
+    document.getElementById('next-banner').innerHTML='';return;
   }
-  el.innerHTML = alarms.map(a => {
-    const mu = musicById(a.musicId);
-    const dayStr = a.days.length===7 ? '每天' : a.days.map(d=>DAYS_TW[d]).join('、');
+  el.innerHTML=alarms.map(a=>{
+    const mu=byId(a.musicId);
+    const ds=a.days.length===7?'每天':a.days.map(d=>TW[d]).join('、');
     return `<div class="alarm-item ${a.on?'on':''}">
       <div class="alarm-emoji">${mu.icon}</div>
       <div class="alarm-info">
         <div class="alarm-time-text">${pad(a.h)}:${pad(a.m)}</div>
-        <div class="alarm-sub">${dayStr}</div>
-        <div class="alarm-music-tag">${mu.name}</div>
+        <div class="alarm-sub">${ds}</div>
+        <div class="alarm-music-tag">${mu.icon} ${mu.name}</div>
       </div>
       <div class="alarm-actions">
+        <button class="icon-btn" onclick="openEdit('${a.id}')" title="編輯">✏️</button>
         <label class="toggle">
-          <input type="checkbox" ${a.on?'checked':''} onchange="toggleAlarm('${a.id}',this.checked)">
-          <div class="toggle-track"></div>
-          <div class="toggle-thumb"></div>
+          <input type="checkbox" ${a.on?'checked':''} onchange="toggleA('${a.id}',this.checked)">
+          <div class="toggle-track"></div><div class="toggle-thumb"></div>
         </label>
-        <button class="del-btn" onclick="deleteAlarm('${a.id}')">✕</button>
+        <button class="icon-btn" onclick="deleteA('${a.id}')" title="刪除">✕</button>
       </div>
     </div>`;
   }).join('');
-  updateNextBanner();
+  updateBanner();
 }
 
-function updateNextBanner() {
-  const now = new Date();
-  const curMin = now.getHours()*60 + now.getMinutes();
-  const curDay = now.getDay();
-  let soonest = null, soonestMins = Infinity;
-  for (const a of alarms) {
-    if (!a.on) continue;
-    for (let dd=0; dd<7; dd++) {
-      const checkDay = (curDay + dd) % 7;
-      if (!a.days.includes(checkDay)) continue;
-      const alarmMin = a.h*60 + a.m;
-      const diff = dd===0 ? (alarmMin > curMin ? alarmMin - curMin : 24*60 - curMin + alarmMin + (6*24*60)) : (dd*24*60 - curMin + alarmMin);
-      if (diff < soonestMins) { soonestMins = diff; soonest = a; }
-      break;
+function updateBanner(){
+  const n=new Date(),cm=n.getHours()*60+n.getMinutes(),cd=n.getDay();
+  let best=Infinity,soonest=null;
+  alarms.forEach(a=>{
+    if(!a.on)return;
+    for(let dd=0;dd<7;dd++){
+      const day=(cd+dd)%7;
+      if(!a.days.includes(day))continue;
+      const am=a.h*60+a.m;
+      const diff=dd===0?(am>cm?am-cm:24*60-cm+am+(6*24*60)):(dd*24*60-cm+am);
+      if(diff<best){best=diff;soonest=a;}break;
     }
+  });
+  const bn=document.getElementById('next-banner');
+  if(!soonest){bn.innerHTML='';return;}
+  const mu=byId(soonest.musicId);
+  const ts=best<60?`${best}分鐘後`:best<1440?`${Math.floor(best/60)}小時${best%60}分後`:`${Math.floor(best/1440)}天後`;
+  bn.innerHTML=`<div class="next-banner"><span class="nb-icon">🔔</span><span class="nb-text">下一個：${pad(soonest.h)}:${pad(soonest.m)} — ${ts} ${mu.icon}</span></div>`;
+}
+
+function toggleA(id,v){const a=alarms.find(x=>x.id===id);if(a){a.on=v;saveD();renderList();}}
+function deleteA(id){alarms=alarms.filter(x=>x.id!==id);saveD();renderList();}
+function clearAll(){if(confirm('確定要刪除所有鬧鐘嗎？')){alarms=[];saveD();renderList();}}
+
+/* ── CHECK ALARMS ── */
+function checkAlarms(n){
+  if(ringingId)return;
+  const h=n.getHours(),m=n.getMinutes(),s=n.getSeconds(),d=n.getDay();
+  alarms.forEach(a=>{if(a.on&&a.h===h&&a.m===m&&s===0&&a.days.includes(d))ring(a);});
+}
+
+/* ── RING ── */
+function ring(alarm){
+  if(ringingId)return;
+  ringingId=alarm.id;
+  const mu=byId(alarm.musicId);
+  document.getElementById('r-emoji').textContent=mu.icon;
+  document.getElementById('r-time').textContent=`${pad(alarm.h)}:${pad(alarm.m)}`;
+  document.getElementById('r-label').textContent=`${mu.name} — 起床囉！`;
+  const sm=parseInt(document.getElementById('snooze-inp').value)||5;
+  document.getElementById('snooze-btn').textContent=`💤 再睡 ${sm} 分鐘`;
+  document.getElementById('ring-screen').classList.add('show');
+  playMelody((alarm.vol||80)/100);
+}
+
+/* ── MELODY (plays cheerful notes via Web Audio) ── */
+function playMelody(vol){
+  try{
+    actx=new(window.AudioContext||window.webkitAudioContext)();
+    const C4=261.6,D4=293.7,E4=329.6,G4=392,A4=440,C5=523.3,E5=659.3,G5=784;
+    /* [freq, beats] — catchy 4/4 melody */
+    const mel=[
+      [C5,.35],[C5,.35],[G5,.35],[G5,.35],[A4,.35],[A4,.35],[G5,.7],
+      [E5,.35],[E5,.35],[D4*2,.35],[D4*2,.35],[C5,.7],[0,.35],
+    ];
+    const bpm=168,beat=60/bpm;
+    let t=actx.currentTime+0.06;
+
+    function playNote(freq,dur){
+      if(!freq){t+=dur*beat;return;}
+      const osc=actx.createOscillator();
+      const env=actx.createGain();
+      osc.connect(env);env.connect(actx.destination);
+      osc.type='triangle';
+      osc.frequency.setValueAtTime(freq,t);
+      env.gain.setValueAtTime(0,t);
+      env.gain.linearRampToValueAtTime(vol*0.6,t+0.018);
+      env.gain.setValueAtTime(vol*0.48,t+dur*beat*0.72);
+      env.gain.linearRampToValueAtTime(0,t+dur*beat*0.96);
+      osc.start(t);osc.stop(t+dur*beat);
+      t+=dur*beat;
+    }
+
+    function loop(){t=actx.currentTime+0.06;mel.forEach(([f,d])=>playNote(f,d));}
+    loop();
+    const totalMs=mel.reduce((s,[,d])=>s+d*beat,0)*1000;
+    beepIv=setInterval(()=>{try{loop();}catch(e){}},Math.ceil(totalMs)+200);
+  }catch(e){
+    /* fallback simple beep */
+    try{
+      actx=new(window.AudioContext||window.webkitAudioContext)();
+      function beep(){
+        const o=actx.createOscillator(),g2=actx.createGain();
+        o.connect(g2);g2.connect(actx.destination);
+        o.type='sine';o.frequency.value=880;
+        g2.gain.setValueAtTime(vol,actx.currentTime);
+        g2.gain.exponentialRampToValueAtTime(0.001,actx.currentTime+0.35);
+        o.start();o.stop(actx.currentTime+0.35);
+      }
+      beep();beepIv=setInterval(beep,900);
+    }catch(e2){}
   }
-  const banner = document.getElementById('next-banner');
-  if (!soonest) { banner.innerHTML = ''; return; }
-  const mu = musicById(soonest.musicId);
-  const totalMins = soonestMins;
-  let timeStr;
-  if (totalMins < 60) timeStr = `${totalMins} 分鐘後`;
-  else if (totalMins < 1440) timeStr = `${Math.floor(totalMins/60)} 小時 ${totalMins%60} 分後`;
-  else timeStr = `${Math.floor(totalMins/1440)} 天後`;
-  banner.innerHTML = `<div class="next-banner"><span class="icon">🔔</span><span class="text">下一個鬧鐘：${pad(soonest.h)}:${pad(soonest.m)} — ${timeStr} ${mu.icon}</span></div>`;
 }
 
-function toggleAlarm(id, val) {
-  const a = alarms.find(x=>x.id===id);
-  if (a) { a.on = val; save(); renderList(); }
+function stopAlarm(){
+  ringingId=null;clearInterval(beepIv);clearTimeout(snoozeT);
+  try{actx&&actx.close();}catch(e){}
+  document.getElementById('ring-screen').classList.remove('show');
 }
-function deleteAlarm(id) {
-  alarms = alarms.filter(x=>x.id!==id);
-  save(); renderList();
-}
-function clearAll() {
-  if (confirm('確定要刪除所有鬧鐘嗎？')) { alarms=[]; save(); renderList(); }
-}
-
-/* ── Check alarms ── */
-function checkAlarms(now) {
-  if (ringingId) return;
-  const h=now.getHours(), m=now.getMinutes(), s=now.getSeconds(), d=now.getDay();
-  for (const a of alarms) {
-    if (!a.on) continue;
-    if (a.h===h && a.m===m && s===0 && a.days.includes(d)) {
-      ring(a); return;
-    }
-  }
+function doSnooze(){
+  const sm=parseInt(document.getElementById('snooze-inp').value)||5;
+  clearInterval(beepIv);try{actx&&actx.close();}catch(e){}
+  const id=ringingId;ringingId=null;
+  document.getElementById('ring-screen').classList.remove('show');
+  snoozeT=setTimeout(()=>{const a=alarms.find(x=>x.id===id);if(a)ring(a);},sm*60000);
 }
 
-function ring(alarm) {
-  ringingId = alarm.id;
-  const mu = musicById(alarm.musicId);
-  document.getElementById('ring-emoji').textContent = mu.icon;
-  document.getElementById('ring-time').textContent = `${pad(alarm.h)}:${pad(alarm.m)}`;
-  document.getElementById('ring-label').textContent = `${mu.name} — 起床囉！`;
-  const sMin = parseInt(document.getElementById('snooze-inp').value)||5;
-  document.getElementById('snooze-btn').textContent = `💤 再睡 ${sMin} 分鐘`;
-  document.getElementById('ringing-screen').classList.add('show');
-  playBeep(alarm.vol / 100);
-}
-
-function playBeep(vol=0.8) {
-  try {
-    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    function beep() {
-      const o = audioCtx.createOscillator();
-      const g = audioCtx.createGain();
-      o.connect(g); g.connect(audioCtx.destination);
-      o.type = 'sine';
-      o.frequency.setValueAtTime(880, audioCtx.currentTime);
-      o.frequency.exponentialRampToValueAtTime(660, audioCtx.currentTime + 0.15);
-      g.gain.setValueAtTime(vol, audioCtx.currentTime);
-      g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.35);
-      o.start(audioCtx.currentTime);
-      o.stop(audioCtx.currentTime + 0.35);
-    }
-    beep();
-    beepInterval = setInterval(beep, 900);
-  } catch(e) {}
-}
-
-function stopAlarm() {
-  ringingId = null;
-  clearInterval(beepInterval);
-  clearTimeout(snoozeTimer);
-  try { audioCtx && audioCtx.close(); } catch(e){}
-  document.getElementById('ringing-screen').classList.remove('show');
-}
-
-function doSnooze() {
-  const sMin = parseInt(document.getElementById('snooze-inp').value)||5;
-  clearInterval(beepInterval);
-  try { audioCtx && audioCtx.close(); } catch(e){}
-  const id = ringingId;
-  ringingId = null;
-  document.getElementById('ringing-screen').classList.remove('show');
-  snoozeTimer = setTimeout(() => {
-    const a = alarms.find(x=>x.id===id);
-    if (a) ring(a);
-  }, sMin * 60 * 1000);
-}
-
-/* ── Custom music ── */
-function addCustom() {
-  const url = document.getElementById('yt-url').value.trim();
-  if (!url) return;
-  const id = 'c_'+Date.now();
-  customMusic.push({id, icon:'🎧', name:'自訂音樂', from:url.slice(0,28)+'…', yt:url});
+/* ── CUSTOM MUSIC ── */
+function addCustom(){
+  const url=document.getElementById('yt-url').value.trim();if(!url)return;
+  customMusic.push({id:'c'+Date.now(),icon:'🎧',name:'自訂音樂',from:url.slice(0,24)+'…',yt:url});
   document.getElementById('yt-url').value='';
-  save();
-  renderCustomList();
-  buildMusicGrid();
+  saveD();renderCustomList();renderMusicGrid('add-music',addSel,'add');
 }
-function removeCustom(id) {
-  customMusic = customMusic.filter(x=>x.id!==id);
-  save(); renderCustomList(); buildMusicGrid();
+function removeCustom(id){
+  customMusic=customMusic.filter(x=>x.id!==id);saveD();renderCustomList();renderMusicGrid('add-music',addSel,'add');
 }
-function renderCustomList() {
-  document.getElementById('custom-list').innerHTML = customMusic.map(m=>
-    `<div style="display:flex;align-items:center;gap:8px;padding:8px 0;border-top:1px solid var(--card-border);">
+function renderCustomList(){
+  document.getElementById('custom-list').innerHTML=customMusic.map(m=>`
+    <div style="display:flex;align-items:center;gap:8px;padding:8px 0;border-top:1px solid rgba(155,93,229,0.12);">
       <span>🎧</span>
-      <span style="flex:1;font-size:12px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${m.yt}</span>
-      <button onclick="removeCustom('${m.id}')" style="border:none;background:transparent;color:var(--muted);font-size:16px;cursor:pointer;">✕</button>
+      <span style="flex:1;font-size:12px;color:var(--mut);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${m.yt}</span>
+      <button onclick="removeCustom('${m.id}')" style="border:none;background:transparent;color:var(--mut);font-size:16px;cursor:pointer;">✕</button>
     </div>`).join('');
 }
 renderCustomList();
 
-/* ── Number input clamping ── */
-document.getElementById('inp-h').addEventListener('change', function(){
-  let v=parseInt(this.value)||0; if(v<0)v=0; if(v>23)v=23; this.value=String(v).padStart(2,'0');
-});
-document.getElementById('inp-m').addEventListener('change', function(){
-  let v=parseInt(this.value)||0; if(v<0)v=0; if(v>59)v=59; this.value=String(v).padStart(2,'0');
-});
+/* ── INPUT CLAMP ── */
+['a-h','e-h'].forEach(id=>document.getElementById(id).addEventListener('change',function(){let v=parseInt(this.value)||0;v=Math.max(0,Math.min(23,v));this.value=pad(v);}));
+['a-m','e-m'].forEach(id=>document.getElementById(id).addEventListener('change',function(){let v=parseInt(this.value)||0;v=Math.max(0,Math.min(59,v));this.value=pad(v);}));
 
-/* ── Wake Lock (keep screen on) ── */
-async function requestWakeLock() {
-  try {
-    if ('wakeLock' in navigator) {
-      await navigator.wakeLock.request('screen');
-    }
-  } catch(e){}
-}
-requestWakeLock();
-document.addEventListener('visibilitychange', () => { if (!document.hidden) requestWakeLock(); });
+/* ── WAKE LOCK ── */
+async function reqWL(){try{if('wakeLock'in navigator)await navigator.wakeLock.request('screen');}catch(e){}}
+reqWL();document.addEventListener('visibilitychange',()=>{if(!document.hidden)reqWL();});
 
-/* ── Init ── */
+/* ── INIT ── */
+renderMusicGrid('add-music',addSel,'add');
 renderList();
 </script>
 </body>
