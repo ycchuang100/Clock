@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="起床鬧鐘">
+<meta name="theme-color" content="#1a0533">
+<title>起床鬧鐘 🌟</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0f0222;
+    --bg2: #1a0533;
+    --bg3: #250848;
+    --purple: #c084fc;
+    --purple-soft: #a855f7;
+    --yellow: #fbbf24;
+    --pink: #f472b6;
+    --teal: #34d399;
+    --white: #f5f0ff;
+    --muted: #8b7aad;
+    --card: rgba(255,255,255,0.05);
+    --card-border: rgba(255,255,255,0.1);
+    --radius: 18px;
+    --radius-sm: 12px;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+  html, body { height:100%; overflow:hidden; }
+  body {
+    font-family:'Nunito', sans-serif;
+    background: var(--bg);
+    color: var(--white);
+    display: flex;
+    flex-direction: column;
+    height: 100dvh;
+    overflow: hidden;
+  }
+
+  /* Stars background */
+  .stars {
+    position: fixed; inset: 0; pointer-events: none; z-index: 0;
+    background:
+      radial-gradient(ellipse at 20% 20%, rgba(192,132,252,0.15) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 80%, rgba(244,114,182,0.1) 0%, transparent 50%);
+  }
+  .stars::before {
+    content: '';
+    position: absolute; inset: 0;
+    background-image:
+      radial-gradient(1px 1px at 10% 15%, rgba(255,255,255,0.7) 0%, transparent 100%),
+      radial-gradient(1px 1px at 25% 40%, rgba(255,255,255,0.5) 0%, transparent 100%),
+      radial-gradient(1.5px 1.5px at 40% 10%, rgba(255,255,255,0.8) 0%, transparent 100%),
+      radial-gradient(1px 1px at 60% 30%, rgba(255,255,255,0.6) 0%, transparent 100%),
+      radial-gradient(1px 1px at 75% 60%, rgba(255,255,255,0.4) 0%, transparent 100%),
+      radial-gradient(1.5px 1.5px at 85% 20%, rgba(255,255,255,0.7) 0%, transparent 100%),
+      radial-gradient(1px 1px at 90% 75%, rgba(255,255,255,0.5) 0%, transparent 100%),
+      radial-gradient(1px 1px at 50% 80%, rgba(255,255,255,0.4) 0%, transparent 100%),
+      radial-gradient(1px 1px at 15% 70%, rgba(255,255,255,0.6) 0%, transparent 100%),
+      radial-gradient(1.5px 1.5px at 35% 55%, rgba(255,255,255,0.3) 0%, transparent 100%);
+  }
+
+  /* Main scroll area */
+  .scroll-area {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+    position: relative;
+    z-index: 1;
+    padding-bottom: env(safe-area-inset-bottom, 20px);
+  }
+  .scroll-area::-webkit-scrollbar { display: none; }
+
+  /* Clock section */
+  .clock-section {
+    text-align: center;
+    padding: 28px 20px 16px;
+  }
+  .clock-face {
+    font-family: 'Space Mono', monospace;
+    font-size: clamp(52px, 18vw, 76px);
+    font-weight: 700;
+    letter-spacing: -2px;
+    background: linear-gradient(135deg, var(--purple), var(--pink));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+  .clock-date {
+    font-size: 14px;
+    color: var(--muted);
+    font-weight: 600;
+    letter-spacing: 0.05em;
+  }
+
+  /* Tabs */
+  .tab-bar {
+    display: flex;
+    gap: 6px;
+    padding: 0 16px 14px;
+    position: sticky; top: 0;
+    z-index: 10;
+  }
+  .tab-bar::before {
+    content: '';
+    position: absolute;
+    inset: -10px -20px 0;
+    background: linear-gradient(to bottom, var(--bg) 70%, transparent);
+    z-index: -1;
+  }
+  .tab-btn {
+    flex: 1;
+    padding: 9px 4px;
+    border-radius: 30px;
+    border: 1.5px solid var(--card-border);
+    background: var(--card);
+    color: var(--muted);
+    font-family: 'Nunito', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .tab-btn.active {
+    background: linear-gradient(135deg, var(--purple-soft), var(--pink));
+    border-color: transparent;
+    color: white;
+  }
+
+  /* Panels */
+  .panel { display: none; padding: 0 16px; }
+  .panel.active { display: block; }
+
+  /* Section label */
+  .sec-label {
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin: 14px 0 8px;
+  }
+
+  /* Cards */
+  .card {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius);
+    padding: 14px 16px;
+    margin-bottom: 10px;
+  }
+
+  /* Alarm list */
+  .alarm-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius);
+    margin-bottom: 8px;
+    transition: border-color 0.2s;
+  }
+  .alarm-item.on { border-color: rgba(192,132,252,0.5); }
+  .alarm-emoji { font-size: 28px; flex-shrink: 0; }
+  .alarm-info { flex: 1; min-width: 0; }
+  .alarm-time-text {
+    font-family: 'Space Mono', monospace;
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--white);
+    line-height: 1;
+  }
+  .alarm-sub { font-size: 12px; color: var(--muted); font-weight: 600; margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .alarm-music-tag { font-size: 12px; color: var(--purple); font-weight: 700; }
+  .alarm-actions { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+  .del-btn {
+    width: 30px; height: 30px;
+    border-radius: 50%;
+    border: 1px solid rgba(255,255,255,0.15);
+    background: transparent;
+    color: var(--muted);
+    font-size: 14px;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .del-btn:active { background: rgba(244,114,182,0.2); color: var(--pink); }
+
+  /* Toggle switch */
+  .toggle { position: relative; width: 46px; height: 26px; flex-shrink: 0; }
+  .toggle input { position: absolute; opacity: 0; width: 0; height: 0; }
+  .toggle-track {
+    position: absolute; inset: 0;
+    border-radius: 13px;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.15);
+    transition: 0.25s;
+    cursor: pointer;
+  }
+  .toggle input:checked ~ .toggle-track {
+    background: linear-gradient(135deg, var(--purple-soft), var(--pink));
+    border-color: transparent;
+  }
+  .toggle-thumb {
+    position: absolute;
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    background: white;
+    top: 3px; left: 3px;
+    transition: 0.25s;
+    pointer-events: none;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+  }
+  .toggle input:checked ~ .toggle-thumb { transform: translateX(20px); }
+
+  /* Time picker */
+  .time-picker {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 8px 0;
+  }
+  .time-picker input[type=number] {
+    width: 80px; height: 70px;
+    font-family: 'Space Mono', monospace;
+    font-size: 36px;
+    font-weight: 700;
+    text-align: center;
+    background: rgba(255,255,255,0.07);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius-sm);
+    color: var(--white);
+    -moz-appearance: textfield;
+  }
+  .time-picker input:focus { outline: none; border-color: var(--purple); }
+  .time-picker input::-webkit-inner-spin-button,
+  .time-picker input::-webkit-outer-spin-button { display: none; }
+  .colon-sep { font-family: 'Space Mono', monospace; font-size: 36px; font-weight: 700; color: var(--purple); }
+
+  /* Day selector */
+  .days-row { display: flex; gap: 6px; justify-content: space-between; }
+  .day-pill {
+    flex: 1;
+    height: 38px;
+    border-radius: 10px;
+    border: 1px solid var(--card-border);
+    background: rgba(255,255,255,0.05);
+    color: var(--muted);
+    font-family: 'Nunito', sans-serif;
+    font-size: 13px;
+    font-weight: 800;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.15s;
+  }
+  .day-pill.on {
+    background: linear-gradient(135deg, rgba(168,85,247,0.4), rgba(244,114,182,0.3));
+    border-color: rgba(192,132,252,0.5);
+    color: var(--purple);
+  }
+
+  /* Music grid */
+  .music-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .music-card {
+    padding: 12px 10px;
+    border-radius: var(--radius-sm);
+    border: 1.5px solid var(--card-border);
+    background: rgba(255,255,255,0.04);
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.15s;
+    position: relative;
+  }
+  .music-card.picked {
+    border-color: var(--purple);
+    background: rgba(168,85,247,0.15);
+  }
+  .music-card.picked::after {
+    content: '✓';
+    position: absolute;
+    top: 6px; right: 8px;
+    font-size: 12px;
+    color: var(--purple);
+    font-weight: 900;
+  }
+  .music-icon { font-size: 28px; margin-bottom: 4px; }
+  .music-name { font-size: 13px; font-weight: 800; color: var(--white); line-height: 1.2; }
+  .music-from { font-size: 11px; color: var(--muted); margin-top: 2px; font-weight: 600; }
+
+  /* Volume */
+  .vol-row { display: flex; align-items: center; gap: 12px; }
+  .vol-row input[type=range] {
+    flex: 1;
+    height: 6px;
+    border-radius: 3px;
+    appearance: none;
+    -webkit-appearance: none;
+    background: rgba(255,255,255,0.15);
+    outline: none;
+  }
+  .vol-row input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--purple-soft), var(--pink));
+    cursor: pointer;
+    box-shadow: 0 0 8px rgba(168,85,247,0.5);
+  }
+  .vol-num { font-size: 14px; font-weight: 700; color: var(--purple); min-width: 38px; text-align: right; }
+
+  /* Save button */
+  .save-btn {
+    width: 100%;
+    padding: 15px;
+    border-radius: var(--radius);
+    border: none;
+    background: linear-gradient(135deg, var(--purple-soft), var(--pink));
+    color: white;
+    font-family: 'Nunito', sans-serif;
+    font-size: 16px;
+    font-weight: 900;
+    cursor: pointer;
+    margin: 14px 0;
+    letter-spacing: 0.02em;
+    box-shadow: 0 4px 20px rgba(168,85,247,0.35);
+    active-transform: scale(0.98);
+  }
+  .save-btn:active { transform: scale(0.98); }
+
+  /* Empty state */
+  .empty-state {
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--muted);
+  }
+  .empty-icon { font-size: 48px; margin-bottom: 12px; }
+  .empty-text { font-size: 15px; font-weight: 700; }
+  .empty-sub { font-size: 13px; margin-top: 4px; opacity: 0.7; }
+
+  /* Custom URL */
+  .url-input-row { display: flex; gap: 8px; }
+  .url-input-row input[type=text] {
+    flex: 1;
+    height: 44px;
+    background: rgba(255,255,255,0.07);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius-sm);
+    color: var(--white);
+    font-family: 'Nunito', sans-serif;
+    font-size: 13px;
+    padding: 0 12px;
+  }
+  .url-input-row input:focus { outline: none; border-color: var(--purple); }
+  .url-add-btn {
+    height: 44px; padding: 0 16px;
+    border-radius: var(--radius-sm);
+    border: 1.5px solid var(--purple-soft);
+    background: transparent;
+    color: var(--purple);
+    font-family: 'Nunito', sans-serif;
+    font-size: 14px; font-weight: 800;
+    cursor: pointer;
+  }
+
+  /* Ringing overlay */
+  #ringing-screen {
+    display: none;
+    position: fixed; inset: 0; z-index: 100;
+    background: var(--bg);
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 40px 24px;
+  }
+  #ringing-screen.show { display: flex; }
+  .ring-stars {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse at 50% 30%, rgba(192,132,252,0.3) 0%, transparent 60%),
+      radial-gradient(ellipse at 50% 80%, rgba(244,114,182,0.2) 0%, transparent 50%);
+    pointer-events: none;
+  }
+  .ring-emoji {
+    font-size: 72px;
+    margin-bottom: 16px;
+    animation: bounce 0.6s ease-in-out infinite alternate;
+    position: relative; z-index: 1;
+  }
+  @keyframes bounce {
+    from { transform: translateY(0) scale(1); }
+    to { transform: translateY(-12px) scale(1.05); }
+  }
+  .ring-time {
+    font-family: 'Space Mono', monospace;
+    font-size: 72px;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--purple), var(--pink));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1;
+    margin-bottom: 8px;
+    position: relative; z-index: 1;
+  }
+  .ring-label {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--muted);
+    margin-bottom: 48px;
+    position: relative; z-index: 1;
+  }
+  .ring-btns { display: flex; flex-direction: column; gap: 12px; width: 100%; max-width: 300px; position: relative; z-index: 1; }
+  .stop-btn {
+    width: 100%; padding: 18px;
+    border-radius: var(--radius);
+    border: none;
+    background: linear-gradient(135deg, var(--purple-soft), var(--pink));
+    color: white;
+    font-family: 'Nunito', sans-serif;
+    font-size: 18px; font-weight: 900;
+    cursor: pointer;
+    box-shadow: 0 6px 24px rgba(168,85,247,0.4);
+  }
+  .snooze-btn {
+    width: 100%; padding: 16px;
+    border-radius: var(--radius);
+    border: 1.5px solid var(--card-border);
+    background: var(--card);
+    color: var(--white);
+    font-family: 'Nunito', sans-serif;
+    font-size: 16px; font-weight: 800;
+    cursor: pointer;
+  }
+
+  /* Snooze settings */
+  .snooze-row { display: flex; align-items: center; gap: 12px; }
+  .snooze-row input[type=number] {
+    width: 70px; height: 44px;
+    background: rgba(255,255,255,0.07);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius-sm);
+    color: var(--white);
+    font-family: 'Space Mono', monospace;
+    font-size: 20px; font-weight: 700;
+    text-align: center;
+    -moz-appearance: textfield;
+  }
+  .snooze-row input::-webkit-inner-spin-button,
+  .snooze-row input::-webkit-outer-spin-button { display: none; }
+  .snooze-row span { font-size: 14px; color: var(--muted); font-weight: 700; }
+
+  /* Next alarm banner */
+  .next-banner {
+    background: linear-gradient(135deg, rgba(168,85,247,0.15), rgba(244,114,182,0.1));
+    border: 1px solid rgba(192,132,252,0.3);
+    border-radius: var(--radius-sm);
+    padding: 10px 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+  .next-banner .icon { font-size: 18px; }
+  .next-banner .text { font-size: 13px; font-weight: 700; color: var(--purple); }
+
+  /* Scroll content bottom padding */
+  .bottom-pad { height: 24px; }
+</style>
+</head>
+<body>
+
+<div class="stars"></div>
+
+<div class="scroll-area">
+
+  <div class="clock-section">
+    <div class="clock-face" id="clock">00:00:00</div>
+    <div class="clock-date" id="date-str"></div>
+  </div>
+
+  <div class="tab-bar">
+    <button class="tab-btn active" id="tab-list-btn" onclick="switchTab('list')">⏰ 鬧鐘</button>
+    <button class="tab-btn" id="tab-add-btn" onclick="switchTab('add')">＋ 新增</button>
+    <button class="tab-btn" id="tab-settings-btn" onclick="switchTab('settings')">⚙️ 設定</button>
+  </div>
+
+  <!-- LIST PANEL -->
+  <div class="panel active" id="panel-list">
+    <div id="next-banner"></div>
+    <div id="alarm-list"></div>
+    <div class="bottom-pad"></div>
+  </div>
+
+  <!-- ADD PANEL -->
+  <div class="panel" id="panel-add">
+    <div class="sec-label">起床時間</div>
+    <div class="card" style="padding:16px">
+      <div class="time-picker">
+        <input type="number" id="inp-h" min="0" max="23" value="07">
+        <span class="colon-sep">:</span>
+        <input type="number" id="inp-m" min="0" max="59" value="00">
+      </div>
+    </div>
+
+    <div class="sec-label">重複日期</div>
+    <div class="card" style="padding:12px">
+      <div class="days-row" id="days-row">
+        <button class="day-pill on" data-d="0">日</button>
+        <button class="day-pill on" data-d="1">一</button>
+        <button class="day-pill on" data-d="2">二</button>
+        <button class="day-pill on" data-d="3">三</button>
+        <button class="day-pill on" data-d="4">四</button>
+        <button class="day-pill on" data-d="5">五</button>
+        <button class="day-pill on" data-d="6">六</button>
+      </div>
+    </div>
+
+    <div class="sec-label">起床音樂 🎵</div>
+    <div class="music-grid" id="music-grid"></div>
+
+    <div class="sec-label">音量</div>
+    <div class="card">
+      <div class="vol-row">
+        <span style="font-size:18px">🔈</span>
+        <input type="range" min="0" max="100" value="80" step="1" id="vol-range"
+          oninput="document.getElementById('vol-disp').textContent=this.value+'%'">
+        <span class="vol-num" id="vol-disp">80%</span>
+      </div>
+    </div>
+
+    <button class="save-btn" onclick="saveAlarm()">✨ 儲存鬧鐘</button>
+    <div class="bottom-pad"></div>
+  </div>
+
+  <!-- SETTINGS PANEL -->
+  <div class="panel" id="panel-settings">
+    <div class="sec-label">貪睡時間</div>
+    <div class="card">
+      <div class="snooze-row">
+        <input type="number" id="snooze-inp" min="1" max="30" value="5">
+        <span>分鐘後再響</span>
+      </div>
+    </div>
+
+    <div class="sec-label">自訂 YouTube 音樂連結</div>
+    <div class="card">
+      <div class="url-input-row" style="margin-bottom:10px">
+        <input type="text" id="yt-url" placeholder="貼上 YouTube 網址…">
+        <button class="url-add-btn" onclick="addCustom()">加入</button>
+      </div>
+      <div id="custom-list"></div>
+    </div>
+
+    <div class="sec-label">重置</div>
+    <div class="card">
+      <button onclick="clearAll()" style="width:100%;padding:12px;border-radius:10px;border:1px solid rgba(244,114,182,0.4);background:rgba(244,114,182,0.08);color:var(--pink);font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;cursor:pointer;">刪除所有鬧鐘</button>
+    </div>
+    <div class="bottom-pad"></div>
+  </div>
+
+</div><!-- end scroll-area -->
+
+<!-- RINGING SCREEN -->
+<div id="ringing-screen">
+  <div class="ring-stars"></div>
+  <div class="ring-emoji" id="ring-emoji">🌟</div>
+  <div class="ring-time" id="ring-time">07:00</div>
+  <div class="ring-label" id="ring-label">起床囉！</div>
+  <div class="ring-btns">
+    <button class="stop-btn" onclick="stopAlarm()">關掉鬧鐘 ✓</button>
+    <button class="snooze-btn" id="snooze-btn" onclick="doSnooze()">💤 再睡一下</button>
+  </div>
+</div>
+
+<script>
+const MUSIC = [
+  {id:'shark', icon:'🦈', name:'Baby Shark', from:'碰碰狐', yt:'https://www.youtube.com/watch?v=XqZsoesa55w'},
+  {id:'frozen', icon:'❄️', name:'Let It Go', from:'冰雪奇緣', yt:'https://www.youtube.com/watch?v=L0MK7qz13bU'},
+  {id:'paw', icon:'🐾', name:'汪汪隊', from:'PAW Patrol', yt:'https://www.youtube.com/watch?v=MRJBeKDSMvE'},
+  {id:'moana', icon:'🌊', name:'How Far I\'ll Go', from:'海洋奇緣', yt:'https://www.youtube.com/watch?v=cPAbx5kgCJo'},
+  {id:'pokemon', icon:'⚡', name:'神奇寶貝', from:'主題曲', yt:'https://www.youtube.com/watch?v=JuYeHPFR3f0'},
+  {id:'encanto', icon:'🦋', name:'We Don\'t Talk…', from:'魔法滿屋', yt:'https://www.youtube.com/watch?v=bvWRMAU6V-c'},
+  {id:'lion', icon:'🦁', name:'Hakuna Matata', from:'獅子王', yt:'https://www.youtube.com/watch?v=xB5ceAruYrI'},
+  {id:'totoro', icon:'🌿', name:'さんぽ', from:'龍貓', yt:'https://www.youtube.com/watch?v=VLfvX7o3gF0'},
+];
+
+let alarms = JSON.parse(localStorage.getItem('alarms_v2') || '[]');
+let customMusic = JSON.parse(localStorage.getItem('custom_music') || '[]');
+let selectedMusicId = MUSIC[0].id;
+let ringingId = null;
+let beepInterval = null;
+let audioCtx = null;
+let snoozeTimer = null;
+
+function save() {
+  localStorage.setItem('alarms_v2', JSON.stringify(alarms));
+  localStorage.setItem('custom_music', JSON.stringify(customMusic));
+}
+
+function allMusic() { return [...MUSIC, ...customMusic]; }
+
+function musicById(id) { return allMusic().find(m => m.id === id) || MUSIC[0]; }
+
+function pad(n) { return String(Math.max(0, Math.min(99, parseInt(n)||0))).padStart(2,'0'); }
+
+/* ── Clock ── */
+const DAYS_TW = ['日','一','二','三','四','五','六'];
+function tickClock() {
+  const now = new Date();
+  const h = String(now.getHours()).padStart(2,'0');
+  const m = String(now.getMinutes()).padStart(2,'0');
+  const s = String(now.getSeconds()).padStart(2,'0');
+  document.getElementById('clock').textContent = `${h}:${m}:${s}`;
+  document.getElementById('date-str').textContent =
+    `${now.getFullYear()}年${now.getMonth()+1}月${now.getDate()}日 （${DAYS_TW[now.getDay()]}）`;
+  checkAlarms(now);
+}
+setInterval(tickClock, 1000);
+tickClock();
+
+/* ── Tab switching ── */
+function switchTab(name) {
+  ['list','add','settings'].forEach(t => {
+    document.getElementById('panel-'+t).classList.toggle('active', t===name);
+    document.getElementById('tab-'+t+'-btn').classList.toggle('active', t===name);
+  });
+  if (name==='add') buildMusicGrid();
+}
+
+/* ── Music grid ── */
+function buildMusicGrid() {
+  const grid = document.getElementById('music-grid');
+  grid.innerHTML = allMusic().map(m => `
+    <div class="music-card ${selectedMusicId===m.id?'picked':''}" onclick="pickMusic('${m.id}')">
+      <div class="music-icon">${m.icon}</div>
+      <div class="music-name">${m.name}</div>
+      <div class="music-from">${m.from}</div>
+    </div>`).join('');
+}
+buildMusicGrid();
+
+function pickMusic(id) {
+  selectedMusicId = id;
+  buildMusicGrid();
+}
+
+/* ── Day pills ── */
+document.querySelectorAll('#days-row .day-pill').forEach(btn => {
+  btn.addEventListener('click', () => btn.classList.toggle('on'));
+});
+
+/* ── Save alarm ── */
+function saveAlarm() {
+  const h = parseInt(document.getElementById('inp-h').value) || 0;
+  const m = parseInt(document.getElementById('inp-m').value) || 0;
+  const days = [...document.querySelectorAll('#days-row .day-pill.on')].map(b=>parseInt(b.dataset.d));
+  if (!days.length) { alert('請至少選一天！'); return; }
+  const vol = parseInt(document.getElementById('vol-range').value);
+  alarms.push({ id: Date.now().toString(), h, m, days, musicId: selectedMusicId, vol, on: true });
+  alarms.sort((a,b) => a.h*60+a.m - (b.h*60+b.m));
+  save();
+  renderList();
+  switchTab('list');
+}
+
+/* ── Render alarm list ── */
+function renderList() {
+  const el = document.getElementById('alarm-list');
+  if (!alarms.length) {
+    el.innerHTML = `<div class="empty-state"><div class="empty-icon">😴</div><div class="empty-text">還沒有鬧鐘</div><div class="empty-sub">點「新增」設定起床時間</div></div>`;
+    document.getElementById('next-banner').innerHTML = '';
+    return;
+  }
+  el.innerHTML = alarms.map(a => {
+    const mu = musicById(a.musicId);
+    const dayStr = a.days.length===7 ? '每天' : a.days.map(d=>DAYS_TW[d]).join('、');
+    return `<div class="alarm-item ${a.on?'on':''}">
+      <div class="alarm-emoji">${mu.icon}</div>
+      <div class="alarm-info">
+        <div class="alarm-time-text">${pad(a.h)}:${pad(a.m)}</div>
+        <div class="alarm-sub">${dayStr}</div>
+        <div class="alarm-music-tag">${mu.name}</div>
+      </div>
+      <div class="alarm-actions">
+        <label class="toggle">
+          <input type="checkbox" ${a.on?'checked':''} onchange="toggleAlarm('${a.id}',this.checked)">
+          <div class="toggle-track"></div>
+          <div class="toggle-thumb"></div>
+        </label>
+        <button class="del-btn" onclick="deleteAlarm('${a.id}')">✕</button>
+      </div>
+    </div>`;
+  }).join('');
+  updateNextBanner();
+}
+
+function updateNextBanner() {
+  const now = new Date();
+  const curMin = now.getHours()*60 + now.getMinutes();
+  const curDay = now.getDay();
+  let soonest = null, soonestMins = Infinity;
+  for (const a of alarms) {
+    if (!a.on) continue;
+    for (let dd=0; dd<7; dd++) {
+      const checkDay = (curDay + dd) % 7;
+      if (!a.days.includes(checkDay)) continue;
+      const alarmMin = a.h*60 + a.m;
+      const diff = dd===0 ? (alarmMin > curMin ? alarmMin - curMin : 24*60 - curMin + alarmMin + (6*24*60)) : (dd*24*60 - curMin + alarmMin);
+      if (diff < soonestMins) { soonestMins = diff; soonest = a; }
+      break;
+    }
+  }
+  const banner = document.getElementById('next-banner');
+  if (!soonest) { banner.innerHTML = ''; return; }
+  const mu = musicById(soonest.musicId);
+  const totalMins = soonestMins;
+  let timeStr;
+  if (totalMins < 60) timeStr = `${totalMins} 分鐘後`;
+  else if (totalMins < 1440) timeStr = `${Math.floor(totalMins/60)} 小時 ${totalMins%60} 分後`;
+  else timeStr = `${Math.floor(totalMins/1440)} 天後`;
+  banner.innerHTML = `<div class="next-banner"><span class="icon">🔔</span><span class="text">下一個鬧鐘：${pad(soonest.h)}:${pad(soonest.m)} — ${timeStr} ${mu.icon}</span></div>`;
+}
+
+function toggleAlarm(id, val) {
+  const a = alarms.find(x=>x.id===id);
+  if (a) { a.on = val; save(); renderList(); }
+}
+function deleteAlarm(id) {
+  alarms = alarms.filter(x=>x.id!==id);
+  save(); renderList();
+}
+function clearAll() {
+  if (confirm('確定要刪除所有鬧鐘嗎？')) { alarms=[]; save(); renderList(); }
+}
+
+/* ── Check alarms ── */
+function checkAlarms(now) {
+  if (ringingId) return;
+  const h=now.getHours(), m=now.getMinutes(), s=now.getSeconds(), d=now.getDay();
+  for (const a of alarms) {
+    if (!a.on) continue;
+    if (a.h===h && a.m===m && s===0 && a.days.includes(d)) {
+      ring(a); return;
+    }
+  }
+}
+
+function ring(alarm) {
+  ringingId = alarm.id;
+  const mu = musicById(alarm.musicId);
+  document.getElementById('ring-emoji').textContent = mu.icon;
+  document.getElementById('ring-time').textContent = `${pad(alarm.h)}:${pad(alarm.m)}`;
+  document.getElementById('ring-label').textContent = `${mu.name} — 起床囉！`;
+  const sMin = parseInt(document.getElementById('snooze-inp').value)||5;
+  document.getElementById('snooze-btn').textContent = `💤 再睡 ${sMin} 分鐘`;
+  document.getElementById('ringing-screen').classList.add('show');
+  playBeep(alarm.vol / 100);
+}
+
+function playBeep(vol=0.8) {
+  try {
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    function beep() {
+      const o = audioCtx.createOscillator();
+      const g = audioCtx.createGain();
+      o.connect(g); g.connect(audioCtx.destination);
+      o.type = 'sine';
+      o.frequency.setValueAtTime(880, audioCtx.currentTime);
+      o.frequency.exponentialRampToValueAtTime(660, audioCtx.currentTime + 0.15);
+      g.gain.setValueAtTime(vol, audioCtx.currentTime);
+      g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.35);
+      o.start(audioCtx.currentTime);
+      o.stop(audioCtx.currentTime + 0.35);
+    }
+    beep();
+    beepInterval = setInterval(beep, 900);
+  } catch(e) {}
+}
+
+function stopAlarm() {
+  ringingId = null;
+  clearInterval(beepInterval);
+  clearTimeout(snoozeTimer);
+  try { audioCtx && audioCtx.close(); } catch(e){}
+  document.getElementById('ringing-screen').classList.remove('show');
+}
+
+function doSnooze() {
+  const sMin = parseInt(document.getElementById('snooze-inp').value)||5;
+  clearInterval(beepInterval);
+  try { audioCtx && audioCtx.close(); } catch(e){}
+  const id = ringingId;
+  ringingId = null;
+  document.getElementById('ringing-screen').classList.remove('show');
+  snoozeTimer = setTimeout(() => {
+    const a = alarms.find(x=>x.id===id);
+    if (a) ring(a);
+  }, sMin * 60 * 1000);
+}
+
+/* ── Custom music ── */
+function addCustom() {
+  const url = document.getElementById('yt-url').value.trim();
+  if (!url) return;
+  const id = 'c_'+Date.now();
+  customMusic.push({id, icon:'🎧', name:'自訂音樂', from:url.slice(0,28)+'…', yt:url});
+  document.getElementById('yt-url').value='';
+  save();
+  renderCustomList();
+  buildMusicGrid();
+}
+function removeCustom(id) {
+  customMusic = customMusic.filter(x=>x.id!==id);
+  save(); renderCustomList(); buildMusicGrid();
+}
+function renderCustomList() {
+  document.getElementById('custom-list').innerHTML = customMusic.map(m=>
+    `<div style="display:flex;align-items:center;gap:8px;padding:8px 0;border-top:1px solid var(--card-border);">
+      <span>🎧</span>
+      <span style="flex:1;font-size:12px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${m.yt}</span>
+      <button onclick="removeCustom('${m.id}')" style="border:none;background:transparent;color:var(--muted);font-size:16px;cursor:pointer;">✕</button>
+    </div>`).join('');
+}
+renderCustomList();
+
+/* ── Number input clamping ── */
+document.getElementById('inp-h').addEventListener('change', function(){
+  let v=parseInt(this.value)||0; if(v<0)v=0; if(v>23)v=23; this.value=String(v).padStart(2,'0');
+});
+document.getElementById('inp-m').addEventListener('change', function(){
+  let v=parseInt(this.value)||0; if(v<0)v=0; if(v>59)v=59; this.value=String(v).padStart(2,'0');
+});
+
+/* ── Wake Lock (keep screen on) ── */
+async function requestWakeLock() {
+  try {
+    if ('wakeLock' in navigator) {
+      await navigator.wakeLock.request('screen');
+    }
+  } catch(e){}
+}
+requestWakeLock();
+document.addEventListener('visibilitychange', () => { if (!document.hidden) requestWakeLock(); });
+
+/* ── Init ── */
+renderList();
+</script>
+</body>
+</html>
