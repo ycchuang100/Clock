@@ -439,13 +439,13 @@ body{font-family:'Nunito',sans-serif;color:var(--txt);display:flex;flex-directio
   <div class="panel" id="panel-settings">
     <div class="sec-lbl">🎵 新增 YouTube 音樂</div>
     <div class="card">
-      <div class="url-row" style="margin-bottom:10px">
-        <input type="text" id="yt-name" placeholder="音樂名稱（例：海底總動員）" style="flex:1.2">
-      </div>
+      <input type="text" id="yt-name" placeholder="音樂名稱（例：海底總動員）"
+        style="width:100%;height:44px;background:rgba(255,255,255,0.07);border:1px solid rgba(180,120,255,0.25);border-radius:12px;color:#f0e8ff;font-family:'Nunito',sans-serif;font-size:13px;padding:0 12px;margin-bottom:8px;display:block;">
       <div class="url-row" style="margin-bottom:10px">
         <input type="text" id="yt-url" placeholder="貼上 YouTube 網址…">
         <button class="url-add" onclick="addCustom()">加入</button>
       </div>
+      <div id="add-toast" style="display:none;font-size:13px;font-weight:700;color:#06d6a0;padding:6px 0 2px;">✓ 已加入！</div>
       <div id="custom-list"></div>
     </div>
     <div class="sec-lbl">貪睡時間</div>
@@ -772,6 +772,9 @@ function addCustom(){
   const name = document.getElementById('yt-name').value.trim();
   const url  = document.getElementById('yt-url').value.trim();
   if(!url){ alert('請輸入 YouTube 網址'); return; }
+  if(!url.includes('youtube') && !url.includes('youtu.be')){
+    if(!confirm('這不像是 YouTube 網址，確定要加入嗎？')) return;
+  }
   const displayName = name || ('音樂 '+(customMusic.length+1));
   const id = 'c'+Date.now();
   customMusic.push({ id, name:displayName, url });
@@ -779,6 +782,11 @@ function addCustom(){
   document.getElementById('yt-url').value='';
   saveD(); renderCustomList();
   renderYtSel('add-yt-sel','add');
+  /* Show success toast */
+  const toast = document.getElementById('add-toast');
+  toast.textContent = `✓ 已加入「${displayName}」！`;
+  toast.style.display = 'block';
+  setTimeout(()=>{ toast.style.display='none'; }, 3000);
 }
 function removeCustom(id){
   customMusic = customMusic.filter(x=>x.id!==id);
