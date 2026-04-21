@@ -9,163 +9,67 @@
 <meta name="theme-color" content="#1a0a2e">
 <title>外星寶寶鬧鐘</title>
 <script>
-/* ── Draw grey big-eye alien icon (inspired by uploaded photo style) ── */
+/* ── App Icon (canvas → PNG) ── */
 window.addEventListener('DOMContentLoaded', function() {
   try {
-    const cv = document.createElement('canvas');
-    cv.width = cv.height = 512;
+    const cv = document.createElement('canvas'); cv.width = cv.height = 512;
     const g = cv.getContext('2d');
-    function c(x,y,r){g.beginPath();g.arc(x,y,r,0,Math.PI*2);}
+    function ci(x,y,r){g.beginPath();g.arc(x,y,r,0,Math.PI*2);}
     function rr(x,y,w,h,r){g.beginPath();g.moveTo(x+r,y);g.arcTo(x+w,y,x+w,y+h,r);g.arcTo(x+w,y+h,x,y+h,r);g.arcTo(x,y+h,x,y,r);g.arcTo(x,y,x+w,y,r);g.closePath();}
-
-    // Purple space background
-    const bg = g.createRadialGradient(256,150,20,256,256,320);
-    bg.addColorStop(0,'#2d0f5e'); bg.addColorStop(1,'#0a0320');
-    rr(0,0,512,512,112); g.fillStyle=bg; g.fill();
-
-    // Nebula glow
-    const nb = g.createRadialGradient(256,180,10,256,220,260);
-    nb.addColorStop(0,'rgba(160,80,255,0.35)'); nb.addColorStop(1,'rgba(80,20,180,0)');
-    rr(0,0,512,512,112); g.fillStyle=nb; g.fill();
-
-    // Stars
-    [[60,55,2],[440,70,1.5],[480,200,1],[90,300,1.5],[460,380,2],[30,420,1],[400,440,1.5],[200,480,1],[350,100,1],[150,130,1.5],[490,130,1]].forEach(([x,y,r])=>{
-      g.fillStyle=`rgba(255,255,255,${0.4+Math.random()*0.5})`; c(x,y,r); g.fill();
+    const bg=g.createRadialGradient(256,150,20,256,256,320);
+    bg.addColorStop(0,'#2d0f5e');bg.addColorStop(1,'#0a0320');
+    rr(0,0,512,512,112);g.fillStyle=bg;g.fill();
+    const nb=g.createRadialGradient(256,180,10,256,220,260);
+    nb.addColorStop(0,'rgba(160,80,255,0.35)');nb.addColorStop(1,'rgba(80,20,180,0)');
+    rr(0,0,512,512,112);g.fillStyle=nb;g.fill();
+    [[60,55,2],[440,70,1.5],[480,200,1],[90,300,1.5],[460,380,2],[400,440,1.5],[350,100,1],[150,130,1.5]].forEach(([x,y,r])=>{
+      g.fillStyle='rgba(255,255,255,0.7)';ci(x,y,r);g.fill();});
+    g.fillStyle='rgba(100,50,200,0.18)';g.beginPath();g.ellipse(256,460,160,30,0,0,Math.PI*2);g.fill();
+    const bG=g.createLinearGradient(200,310,312,420);bG.addColorStop(0,'#b8b0c8');bG.addColorStop(1,'#8880a0');
+    g.fillStyle=bG;g.beginPath();g.moveTo(210,340);g.bezierCurveTo(195,370,188,430,200,460);g.lineTo(312,460);g.bezierCurveTo(324,430,317,370,302,340);g.closePath();g.fill();
+    const nG=g.createLinearGradient(240,300,272,345);nG.addColorStop(0,'#c0b8d0');nG.addColorStop(1,'#9890b0');
+    g.fillStyle=nG;g.beginPath();g.ellipse(256,330,28,30,0,0,Math.PI*2);g.fill();
+    const hG=g.createRadialGradient(230,195,15,252,230,138);
+    hG.addColorStop(0,'#d4cce4');hG.addColorStop(0.6,'#b8b0cc');hG.addColorStop(1,'#8880a8');
+    g.fillStyle=hG;g.beginPath();g.moveTo(256,92);g.bezierCurveTo(320,92,370,148,370,215);g.bezierCurveTo(370,278,320,318,256,318);g.bezierCurveTo(192,318,142,278,142,215);g.bezierCurveTo(142,148,192,92,256,92);g.closePath();g.fill();
+    g.save();g.globalAlpha=0.18;const hl=g.createRadialGradient(224,140,5,232,160,80);hl.addColorStop(0,'white');hl.addColorStop(1,'transparent');g.fillStyle=hl;g.beginPath();g.ellipse(230,158,55,48,-0.3,0,Math.PI*2);g.fill();g.restore();
+    [[195,218],[317,218]].forEach(([tx,ty])=>{g.save();g.translate(tx,ty);g.scale(1,1.35);ci(0,0,52);g.fillStyle='rgba(30,20,60,0.55)';g.fill();g.restore();});
+    [[195,216],[317,216]].forEach(([tx,ty])=>{
+      g.save();g.translate(tx,ty);
+      const eG=g.createRadialGradient(-8,-12,4,0,0,46);eG.addColorStop(0,'#3a2a6e');eG.addColorStop(0.5,'#1a1040');eG.addColorStop(1,'#08040e');
+      g.scale(1,1.28);ci(0,0,44);g.fillStyle=eG;g.fill();
+      ci(0,0,28);g.fillStyle='#060410';g.fill();
+      ci(-6,-8,18);g.fillStyle='rgba(100,70,200,0.45)';g.fill();
+      g.fillStyle='rgba(200,190,255,0.9)';ci(-10,-14,11);g.fill();
+      g.fillStyle='rgba(255,255,255,0.7)';ci(-6,-10,6);g.fill();
+      g.restore();
     });
-
-    // Ground glow
-    g.fillStyle='rgba(100,50,200,0.18)'; g.beginPath(); g.ellipse(256,460,160,30,0,0,Math.PI*2); g.fill();
-
-    // BODY — grey, slim, humanoid like photo
-    const bodyG = g.createLinearGradient(200,310,312,420);
-    bodyG.addColorStop(0,'#b8b0c8'); bodyG.addColorStop(1,'#8880a0');
-    g.fillStyle=bodyG;
-    g.beginPath(); g.moveTo(210,340); g.bezierCurveTo(195,370,188,430,200,460); g.lineTo(312,460); g.bezierCurveTo(324,430,317,370,302,340); g.closePath(); g.fill();
-
-    // Neck
-    const nkG = g.createLinearGradient(240,300,272,345);
-    nkG.addColorStop(0,'#c0b8d0'); nkG.addColorStop(1,'#9890b0');
-    g.fillStyle=nkG; g.beginPath(); g.ellipse(256,330,28,30,0,0,Math.PI*2); g.fill();
-
-    // Collarbone line
-    g.strokeStyle='rgba(80,60,120,0.35)'; g.lineWidth=2;
-    g.beginPath(); g.moveTo(215,355); g.quadraticCurveTo(256,348,297,355); g.stroke();
-
-    // HEAD — large tear-drop / egg shape like photo
-    const headG = g.createRadialGradient(230,195,15,252,230,138);
-    headG.addColorStop(0,'#d4cce4'); headG.addColorStop(0.6,'#b8b0cc'); headG.addColorStop(1,'#8880a8');
-    g.fillStyle=headG;
-    g.beginPath();
-    g.moveTo(256,92);
-    g.bezierCurveTo(320,92,370,148,370,215);
-    g.bezierCurveTo(370,278,320,318,256,318);
-    g.bezierCurveTo(192,318,142,278,142,215);
-    g.bezierCurveTo(142,148,192,92,256,92);
-    g.closePath(); g.fill();
-
-    // Head shading / contour
-    g.strokeStyle='rgba(80,60,120,0.2)'; g.lineWidth=1.5;
-    g.beginPath(); g.moveTo(256,92);
-    g.bezierCurveTo(320,92,370,148,370,215);
-    g.bezierCurveTo(370,278,320,318,256,318);
-    g.bezierCurveTo(192,318,142,278,142,215);
-    g.bezierCurveTo(142,148,192,92,256,92);
-    g.stroke();
-
-    // Head highlight (like photo's shiny cranium)
-    g.save(); g.globalAlpha=0.18;
-    const hl = g.createRadialGradient(224,140,5,232,160,80);
-    hl.addColorStop(0,'white'); hl.addColorStop(1,'transparent');
-    g.fillStyle=hl; g.beginPath(); g.ellipse(230,158,55,48,-0.3,0,Math.PI*2); g.fill();
-    g.restore();
-
-    // EYES — massive almond-shaped like photo
-    // Left eye socket
-    g.save();
-    g.translate(195,218); g.scale(1,1.35);
-    c(0,0,52); g.fillStyle='rgba(30,20,60,0.55)'; g.fill();
-    g.restore();
-    // Right eye socket
-    g.save();
-    g.translate(317,218); g.scale(1,1.35);
-    c(0,0,52); g.fillStyle='rgba(30,20,60,0.55)'; g.fill();
-    g.restore();
-
-    // Left eye — big dark almond
-    g.save(); g.translate(195,216);
-    const leftEye = g.createRadialGradient(-8,-12,4,0,0,46);
-    leftEye.addColorStop(0,'#3a2a6e'); leftEye.addColorStop(0.5,'#1a1040'); leftEye.addColorStop(1,'#08040e');
-    g.scale(1,1.28);
-    c(0,0,44); g.fillStyle=leftEye; g.fill();
-    // Deep pupil
-    c(0,0,28); g.fillStyle='#060410'; g.fill();
-    // Inner reflection (blue-purple like photo)
-    c(-6,-8,18); g.fillStyle='rgba(100,70,200,0.45)'; g.fill();
-    // Main highlight
-    g.fillStyle='rgba(200,190,255,0.9)'; c(-10,-14,11); g.fill();
-    g.fillStyle='rgba(255,255,255,0.7)'; c(-6,-10,6); g.fill();
-    // Small secondary shine
-    g.fillStyle='rgba(255,255,255,0.5)'; c(14,10,4); g.fill();
-    g.restore();
-
-    // Right eye
-    g.save(); g.translate(317,216);
-    const rightEye = g.createRadialGradient(-8,-12,4,0,0,46);
-    rightEye.addColorStop(0,'#3a2a6e'); rightEye.addColorStop(0.5,'#1a1040'); rightEye.addColorStop(1,'#08040e');
-    g.scale(1,1.28);
-    c(0,0,44); g.fillStyle=rightEye; g.fill();
-    c(0,0,28); g.fillStyle='#060410'; g.fill();
-    c(-6,-8,18); g.fillStyle='rgba(100,70,200,0.45)'; g.fill();
-    g.fillStyle='rgba(200,190,255,0.9)'; c(-10,-14,11); g.fill();
-    g.fillStyle='rgba(255,255,255,0.7)'; c(-6,-10,6); g.fill();
-    g.fillStyle='rgba(255,255,255,0.5)'; c(14,10,4); g.fill();
-    g.restore();
-
-    // Brow ridge (subtle like photo)
-    g.strokeStyle='rgba(60,40,100,0.3)'; g.lineWidth=3;
-    g.beginPath(); g.moveTo(150,190); g.bezierCurveTo(175,175,215,170,240,180); g.stroke();
-    g.beginPath(); g.moveTo(362,190); g.bezierCurveTo(337,175,297,170,272,180); g.stroke();
-
-    // Tiny nose slits (just 2 subtle dots like photo)
     g.fillStyle='rgba(80,60,110,0.45)';
-    g.beginPath(); g.ellipse(248,284,5,3.5,-0.2,0,Math.PI*2); g.fill();
-    g.beginPath(); g.ellipse(264,284,5,3.5,0.2,0,Math.PI*2); g.fill();
-
-    // Very thin line mouth (barely visible like photo)
-    g.strokeStyle='rgba(90,70,120,0.4)'; g.lineWidth=2.5; g.lineCap='round';
-    g.beginPath(); g.moveTo(236,305); g.quadraticCurveTo(256,310,276,305); g.stroke();
-
-    // Clock badge (bottom right of icon)
-    g.fillStyle='rgba(180,120,255,0.9)';
-    rr(340,350,130,130,28); g.fill();
-    g.fillStyle='rgba(255,255,255,0.12)';
-    rr(340,350,130,130,28); g.fill();
-    // Clock face
-    g.fillStyle='rgba(255,255,255,0.95)'; c(405,415,44); g.fill();
-    g.strokeStyle='#9060cc'; g.lineWidth=3; c(405,415,44); g.stroke();
-    // Ticks
-    [[405,376,405,384],[405,446,405,454],[366,415,374,415],[436,415,444,415]].forEach(([x1,y1,x2,y2])=>{
-      g.strokeStyle='#9060cc'; g.lineWidth=2.5; g.beginPath(); g.moveTo(x1,y1); g.lineTo(x2,y2); g.stroke();
-    });
-    // Hour hand
-    g.strokeStyle='#3a1a6e'; g.lineWidth=3.5; g.lineCap='round';
-    g.beginPath(); g.moveTo(405,415); g.lineTo(405,394); g.stroke();
-    // Minute hand
-    g.strokeStyle='#cc44aa'; g.lineWidth=2.5;
-    g.beginPath(); g.moveTo(405,415); g.lineTo(422,425); g.stroke();
-    g.fillStyle='#5a2aa0'; c(405,415,4); g.fill();
-
-    const png = cv.toDataURL('image/png');
-    const li = document.createElement('link'); li.rel='apple-touch-icon'; li.href=png; document.head.appendChild(li);
-    const lf = document.createElement('link'); lf.rel='icon'; lf.type='image/png'; lf.href=png; document.head.appendChild(lf);
-  } catch(e){ console.warn('icon err',e); }
+    g.beginPath();g.ellipse(248,284,5,3.5,-0.2,0,Math.PI*2);g.fill();
+    g.beginPath();g.ellipse(264,284,5,3.5,0.2,0,Math.PI*2);g.fill();
+    g.strokeStyle='rgba(90,70,120,0.4)';g.lineWidth=2.5;g.lineCap='round';
+    g.beginPath();g.moveTo(236,305);g.quadraticCurveTo(256,310,276,305);g.stroke();
+    g.fillStyle='rgba(155,93,229,0.9)';rr(340,355,130,125,26);g.fill();
+    g.fillStyle='rgba(255,255,255,0.93)';ci(405,418,42);g.fill();
+    g.strokeStyle='#7030b0';g.lineWidth=3;ci(405,418,42);g.stroke();
+    [[405,381,405,389],[405,447,405,455],[368,418,376,418],[434,418,442,418]].forEach(([x1,y1,x2,y2])=>{
+      g.strokeStyle='#9060cc';g.lineWidth=2.5;g.beginPath();g.moveTo(x1,y1);g.lineTo(x2,y2);g.stroke();});
+    g.strokeStyle='#3a1a6e';g.lineWidth=3.5;g.lineCap='round';
+    g.beginPath();g.moveTo(405,418);g.lineTo(405,397);g.stroke();
+    g.strokeStyle='#cc44aa';g.lineWidth=2.5;
+    g.beginPath();g.moveTo(405,418);g.lineTo(422,428);g.stroke();
+    g.fillStyle='#5a2aa0';ci(405,418,4);g.fill();
+    const png=cv.toDataURL('image/png');
+    const li=document.createElement('link');li.rel='apple-touch-icon';li.href=png;document.head.appendChild(li);
+    const lf=document.createElement('link');lf.rel='icon';lf.type='image/png';lf.href=png;document.head.appendChild(lf);
+  } catch(e){}
 });
 </script>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --pu:#9b5de5;--pk:#f72585;--tl:#00d4ff;--gn:#06d6a0;--ye:#ffd60a;
-  --txt:#f0e8ff;--mut:#a090cc;--dark:#1a0a2e;
+  --pu:#9b5de5;--pk:#f72585;--tl:#00d4ff;
+  --txt:#f0e8ff;--mut:#a090cc;
   --card:rgba(255,255,255,0.07);--cb:rgba(180,140,255,0.2);
   --r:18px;--rs:12px;
 }
@@ -173,44 +77,26 @@ window.addEventListener('DOMContentLoaded', function() {
 html,body{height:100%;overflow:hidden;}
 body{font-family:'Nunito',sans-serif;color:var(--txt);display:flex;flex-direction:column;height:100dvh;overflow:hidden;background:#0a0320;}
 
-/* ═══ SPACE BACKGROUND ═══ */
-.bg-canvas{position:fixed;inset:0;z-index:0;overflow:hidden;}
-.bg-canvas::before{
-  content:'';position:absolute;inset:0;
+.bg{position:fixed;inset:0;z-index:0;overflow:hidden;}
+.bg::before{content:'';position:absolute;inset:0;
   background:
-    radial-gradient(ellipse 80% 60% at 20% 10%, rgba(120,40,220,0.55) 0%, transparent 60%),
-    radial-gradient(ellipse 60% 50% at 85% 15%, rgba(0,140,255,0.3) 0%, transparent 55%),
-    radial-gradient(ellipse 70% 55% at 10% 80%, rgba(80,0,180,0.4) 0%, transparent 55%),
-    radial-gradient(ellipse 60% 45% at 90% 85%, rgba(180,60,255,0.3) 0%, transparent 50%),
-    radial-gradient(ellipse 50% 40% at 50% 50%, rgba(60,10,120,0.6) 0%, transparent 65%);
-}
-/* Star field */
-.bg-canvas::after{
-  content:'';position:absolute;inset:0;
+    radial-gradient(ellipse 80% 60% at 20% 10%,rgba(120,40,220,0.55) 0%,transparent 60%),
+    radial-gradient(ellipse 60% 50% at 85% 15%,rgba(0,140,255,0.3) 0%,transparent 55%),
+    radial-gradient(ellipse 70% 55% at 10% 80%,rgba(80,0,180,0.4) 0%,transparent 55%),
+    radial-gradient(ellipse 60% 45% at 90% 85%,rgba(180,60,255,0.3) 0%,transparent 50%),
+    radial-gradient(ellipse 50% 40% at 50% 50%,rgba(60,10,120,0.6) 0%,transparent 65%);}
+.bg::after{content:'';position:absolute;inset:0;
   background-image:
-    radial-gradient(1.5px 1.5px at 8%  6%,  rgba(255,255,255,.85) 0%,transparent 100%),
-    radial-gradient(1px   1px   at 18% 14%, rgba(255,255,255,.6)  0%,transparent 100%),
-    radial-gradient(2px   2px   at 32% 4%,  rgba(255,255,255,.75) 0%,transparent 100%),
-    radial-gradient(1px   1px   at 55% 9%,  rgba(255,255,255,.5)  0%,transparent 100%),
-    radial-gradient(1.5px 1.5px at 70% 18%, rgba(255,255,255,.8)  0%,transparent 100%),
-    radial-gradient(1px   1px   at 85% 7%,  rgba(255,255,255,.65) 0%,transparent 100%),
-    radial-gradient(2px   2px   at 92% 22%, rgba(255,255,255,.7)  0%,transparent 100%),
-    radial-gradient(1px   1px   at 6%  35%, rgba(255,255,255,.5)  0%,transparent 100%),
-    radial-gradient(1.5px 1.5px at 15% 48%, rgba(255,255,255,.7)  0%,transparent 100%),
-    radial-gradient(1px   1px   at 28% 55%, rgba(255,255,255,.45) 0%,transparent 100%),
-    radial-gradient(1px   1px   at 42% 42%, rgba(255,255,255,.55) 0%,transparent 100%),
-    radial-gradient(2px   2px   at 58% 62%, rgba(255,255,255,.65) 0%,transparent 100%),
-    radial-gradient(1px   1px   at 75% 50%, rgba(255,255,255,.5)  0%,transparent 100%),
-    radial-gradient(1.5px 1.5px at 88% 38%, rgba(255,255,255,.8)  0%,transparent 100%),
-    radial-gradient(1px   1px   at 96% 55%, rgba(255,255,255,.55) 0%,transparent 100%),
-    radial-gradient(1px   1px   at 12% 70%, rgba(255,255,255,.6)  0%,transparent 100%),
-    radial-gradient(2px   2px   at 25% 80%, rgba(255,255,255,.7)  0%,transparent 100%),
-    radial-gradient(1px   1px   at 40% 88%, rgba(255,255,255,.45) 0%,transparent 100%),
-    radial-gradient(1.5px 1.5px at 62% 78%, rgba(255,255,255,.65) 0%,transparent 100%),
-    radial-gradient(1px   1px   at 80% 85%, rgba(255,255,255,.5)  0%,transparent 100%),
-    radial-gradient(1px   1px   at 95% 92%, rgba(255,255,255,.6)  0%,transparent 100%);
-}
-/* Nebula blobs */
+    radial-gradient(1.5px 1.5px at 8%  6%,rgba(255,255,255,.85) 0%,transparent 100%),
+    radial-gradient(2px   2px   at 32%  4%,rgba(255,255,255,.75) 0%,transparent 100%),
+    radial-gradient(1.5px 1.5px at 70% 18%,rgba(255,255,255,.8)  0%,transparent 100%),
+    radial-gradient(2px   2px   at 92% 22%,rgba(255,255,255,.7)  0%,transparent 100%),
+    radial-gradient(1.5px 1.5px at 15% 48%,rgba(255,255,255,.7)  0%,transparent 100%),
+    radial-gradient(2px   2px   at 58% 62%,rgba(255,255,255,.65) 0%,transparent 100%),
+    radial-gradient(1.5px 1.5px at 88% 38%,rgba(255,255,255,.8)  0%,transparent 100%),
+    radial-gradient(1px   1px   at 25% 80%,rgba(255,255,255,.7)  0%,transparent 100%),
+    radial-gradient(1.5px 1.5px at 62% 78%,rgba(255,255,255,.65) 0%,transparent 100%),
+    radial-gradient(1px   1px   at 80% 85%,rgba(255,255,255,.5)  0%,transparent 100%);}
 .blob{position:absolute;border-radius:50%;animation:drift 9s ease-in-out infinite alternate;mix-blend-mode:screen;}
 .b1{width:280px;height:280px;top:-60px;left:-60px;background:radial-gradient(circle,rgba(160,60,255,0.4),transparent 70%);animation-delay:0s;}
 .b2{width:220px;height:220px;top:-40px;right:-50px;background:radial-gradient(circle,rgba(0,160,255,0.3),transparent 70%);animation-delay:2s;}
@@ -219,56 +105,55 @@ body{font-family:'Nunito',sans-serif;color:var(--txt);display:flex;flex-directio
 .b5{width:150px;height:150px;top:35%;left:-30px;background:radial-gradient(circle,rgba(0,200,255,0.25),transparent 70%);animation-delay:3s;}
 .b6{width:160px;height:160px;top:28%;right:-30px;background:radial-gradient(circle,rgba(180,100,255,0.25),transparent 70%);animation-delay:5s;}
 @keyframes drift{from{transform:translate(0,0) scale(1);}to{transform:translate(20px,25px) scale(1.12);}}
-
-/* Floating space objects */
 .floats{position:absolute;inset:0;pointer-events:none;}
-.fs{position:absolute;animation:floatup 6s ease-in-out infinite alternate;opacity:0.6;}
-.fs:nth-child(1){top:6%;left:8%;font-size:24px;animation-delay:0s;}
-.fs:nth-child(2){top:9%;right:10%;font-size:20px;animation-delay:1.4s;}
-.fs:nth-child(3){top:42%;left:4%;font-size:18px;animation-delay:2.6s;}
-.fs:nth-child(4){top:38%;right:5%;font-size:22px;animation-delay:0.8s;}
-.fs:nth-child(5){bottom:22%;left:10%;font-size:20px;animation-delay:2s;}
-.fs:nth-child(6){bottom:18%;right:8%;font-size:16px;animation-delay:3.2s;}
-.fs:nth-child(7){top:20%;left:28%;font-size:14px;animation-delay:4s;}
-.fs:nth-child(8){bottom:35%;right:25%;font-size:14px;animation-delay:1s;}
+.fs{position:absolute;animation:floatup 6s ease-in-out infinite alternate;opacity:0.55;}
+.fs:nth-child(1){top:6%;left:8%;font-size:22px;animation-delay:0s;}
+.fs:nth-child(2){top:9%;right:10%;font-size:18px;animation-delay:1.4s;}
+.fs:nth-child(3){top:43%;left:4%;font-size:16px;animation-delay:2.6s;}
+.fs:nth-child(4){top:39%;right:5%;font-size:20px;animation-delay:0.8s;}
+.fs:nth-child(5){bottom:22%;left:10%;font-size:18px;animation-delay:2s;}
+.fs:nth-child(6){bottom:18%;right:8%;font-size:14px;animation-delay:3.2s;}
 @keyframes floatup{from{transform:translateY(0) rotate(0deg);}to{transform:translateY(-20px) rotate(18deg);}}
 
-/* ═══ SCROLL ═══ */
 .scroll-area{flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;position:relative;z-index:1;padding-bottom:env(safe-area-inset-bottom,20px);}
 .scroll-area::-webkit-scrollbar{display:none;}
 
-/* ═══ CLOCK ═══ */
-.clock-section{text-align:center;padding:20px 20px 10px;}
-.alien-wobble{font-size:52px;line-height:1;margin-bottom:2px;display:inline-block;animation:wobble 3s ease-in-out infinite;filter:drop-shadow(0 0 12px rgba(180,100,255,0.6));}
+/* Clock */
+.clock-section{text-align:center;padding:22px 20px 10px;}
+.alien-wobble{font-size:50px;line-height:1;margin-bottom:2px;display:inline-block;animation:wobble 3s ease-in-out infinite;filter:drop-shadow(0 0 14px rgba(180,100,255,0.65));}
 @keyframes wobble{0%,100%{transform:rotate(-5deg);}50%{transform:rotate(5deg);}}
-.clock-face{font-family:'Space Mono',monospace;font-size:clamp(48px,16vw,70px);font-weight:700;letter-spacing:-2px;background:linear-gradient(135deg,#c084fc,#f72585,#00d4ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1;margin-bottom:3px;filter:drop-shadow(0 0 8px rgba(180,80,255,0.4));}
+.clock-face{font-family:'Space Mono',monospace;font-size:clamp(46px,15vw,68px);font-weight:700;letter-spacing:-2px;background:linear-gradient(135deg,#c084fc,#f72585,#00d4ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1;margin-bottom:3px;}
 .clock-date{font-size:13px;color:var(--mut);font-weight:700;}
 
-/* ═══ TABS ═══ */
+/* Screen-on reminder */
+.keep-bar{margin:10px 16px 0;background:rgba(255,200,0,0.08);border:1px solid rgba(255,200,0,0.25);border-radius:12px;padding:9px 13px;display:flex;align-items:center;gap:8px;}
+.keep-bar span{font-size:14px;flex-shrink:0;}
+.keep-bar p{font-size:11px;color:rgba(255,220,100,0.85);font-weight:700;line-height:1.4;}
+
+/* Tabs */
 .tab-bar{display:flex;gap:6px;padding:10px 16px 12px;position:sticky;top:0;z-index:10;}
 .tab-bar::before{content:'';position:absolute;inset:-4px -4px 0;background:linear-gradient(to bottom,rgba(10,3,32,0.97) 60%,transparent);z-index:-1;}
 .tab-btn{flex:1;padding:9px 2px;border-radius:30px;border:1px solid rgba(180,120,255,0.28);background:rgba(255,255,255,0.06);color:var(--mut);font-family:'Nunito',sans-serif;font-size:12px;font-weight:800;cursor:pointer;transition:all .2s;}
 .tab-btn.active{background:linear-gradient(135deg,var(--pu),var(--pk));border-color:transparent;color:white;box-shadow:0 2px 12px rgba(155,93,229,0.4);}
 
-/* ═══ PANELS ═══ */
+/* Panels */
 .panel{display:none;padding:0 16px;}
 .panel.active{display:block;}
 .sec-lbl{font-size:11px;font-weight:800;letter-spacing:.1em;color:var(--mut);text-transform:uppercase;margin:14px 0 8px;}
-.card{background:rgba(255,255,255,0.06);border:1px solid rgba(180,120,255,0.2);border-radius:var(--r);padding:14px 16px;margin-bottom:10px;backdrop-filter:blur(12px);}
+.card{background:var(--card);border:1px solid var(--cb);border-radius:var(--r);padding:14px 16px;margin-bottom:10px;backdrop-filter:blur(12px);}
 
-/* ═══ ALARM LIST ═══ */
-.alarm-item{display:flex;align-items:center;gap:12px;padding:13px 14px;background:rgba(255,255,255,0.06);border:1px solid rgba(180,120,255,0.18);border-radius:var(--r);margin-bottom:8px;backdrop-filter:blur(10px);transition:border-color .2s;}
+/* Alarm list */
+.alarm-item{display:flex;align-items:center;gap:12px;padding:14px 16px;background:var(--card);border:1px solid var(--cb);border-radius:var(--r);margin-bottom:8px;backdrop-filter:blur(10px);transition:border-color .2s;}
 .alarm-item.on{border-color:rgba(155,93,229,0.55);background:rgba(155,93,229,0.1);}
-.alarm-emoji{font-size:26px;flex-shrink:0;}
 .alarm-info{flex:1;min-width:0;}
-.alarm-time-text{font-family:'Space Mono',monospace;font-size:26px;font-weight:700;color:var(--txt);line-height:1;}
+.alarm-time-text{font-family:'Space Mono',monospace;font-size:30px;font-weight:700;color:var(--txt);line-height:1;}
 .alarm-sub{font-size:12px;color:var(--mut);font-weight:600;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.alarm-music-tag{font-size:12px;color:#c084fc;font-weight:700;}
-.alarm-actions{display:flex;align-items:center;gap:7px;flex-shrink:0;}
-.icon-btn{width:30px;height:30px;border-radius:50%;border:1px solid rgba(180,120,255,0.25);background:transparent;color:var(--mut);font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+.alarm-music-tag{font-size:12px;color:#c084fc;font-weight:700;margin-top:1px;}
+.alarm-actions{display:flex;align-items:center;gap:8px;flex-shrink:0;}
+.icon-btn{width:32px;height:32px;border-radius:50%;border:1px solid var(--cb);background:transparent;color:var(--mut);font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
 .icon-btn:active{background:rgba(155,93,229,0.2);}
 
-/* ═══ TOGGLE ═══ */
+/* Toggle */
 .toggle{position:relative;width:46px;height:26px;flex-shrink:0;}
 .toggle input{position:absolute;opacity:0;width:0;height:0;}
 .toggle-track{position:absolute;inset:0;border-radius:13px;background:rgba(255,255,255,0.1);border:1px solid rgba(180,120,255,0.25);transition:.25s;cursor:pointer;}
@@ -276,104 +161,107 @@ body{font-family:'Nunito',sans-serif;color:var(--txt);display:flex;flex-directio
 .toggle-thumb{position:absolute;width:20px;height:20px;border-radius:50%;background:white;top:3px;left:3px;transition:.25s;pointer-events:none;box-shadow:0 1px 4px rgba(0,0,0,0.4);}
 .toggle input:checked~.toggle-thumb{transform:translateX(20px);}
 
-/* ═══ TIME PICKER ═══ */
+/* Time picker */
 .time-picker{display:flex;align-items:center;justify-content:center;gap:8px;padding:8px 0;}
-.tp-inp{width:80px;height:68px;font-family:'Space Mono',monospace;font-size:34px;font-weight:700;text-align:center;background:rgba(255,255,255,0.08);border:1px solid rgba(180,120,255,0.3);border-radius:var(--rs);color:var(--txt);-moz-appearance:textfield;}
+.tp-inp{width:82px;height:70px;font-family:'Space Mono',monospace;font-size:36px;font-weight:700;text-align:center;background:rgba(255,255,255,0.08);border:1px solid rgba(180,120,255,0.3);border-radius:var(--rs);color:var(--txt);-moz-appearance:textfield;}
 .tp-inp:focus{outline:none;border-color:var(--pu);}
 .tp-inp::-webkit-inner-spin-button,.tp-inp::-webkit-outer-spin-button{display:none;}
-.colon-sep{font-family:'Space Mono',monospace;font-size:34px;font-weight:700;color:#c084fc;}
+.colon-sep{font-family:'Space Mono',monospace;font-size:36px;font-weight:700;color:#c084fc;}
 
-/* ═══ DAYS ═══ */
+/* Days */
 .days-row{display:flex;gap:5px;justify-content:space-between;}
-.day-pill{flex:1;height:38px;border-radius:10px;border:1px solid rgba(180,120,255,0.22);background:rgba(255,255,255,0.05);color:var(--mut);font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s;}
+.day-pill{flex:1;height:40px;border-radius:10px;border:1px solid rgba(180,120,255,0.22);background:rgba(255,255,255,0.05);color:var(--mut);font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s;}
 .day-pill.on{background:linear-gradient(135deg,rgba(155,93,229,0.35),rgba(247,37,133,0.25));border-color:rgba(155,93,229,0.6);color:#c084fc;}
 
-/* ═══ SAVE BTN ═══ */
+/* YT track selector */
+.yt-selector{display:flex;flex-direction:column;gap:6px;}
+.yt-track{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:var(--rs);border:1px solid rgba(180,120,255,0.18);background:rgba(255,255,255,0.04);cursor:pointer;transition:all .15s;}
+.yt-track.picked{border-color:var(--pu);background:rgba(155,93,229,0.15);}
+.yt-track::before{content:'○';font-size:13px;color:var(--mut);flex-shrink:0;}
+.yt-track.picked::before{content:'✓';color:#c084fc;}
+.yt-track-name{font-size:13px;font-weight:700;color:var(--txt);flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.yt-track-url{font-size:11px;color:var(--mut);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.no-music-tip{font-size:13px;color:var(--mut);padding:12px;text-align:center;line-height:1.5;}
+
+/* Save btn */
 .save-btn{width:100%;padding:15px;border-radius:var(--r);border:none;background:linear-gradient(135deg,var(--pu),var(--pk));color:white;font-family:'Nunito',sans-serif;font-size:16px;font-weight:900;cursor:pointer;margin:14px 0;box-shadow:0 4px 20px rgba(155,93,229,0.4);}
 .save-btn:active{transform:scale(0.98);}
 
-/* ═══ VOLUME ═══ */
+/* Volume */
 .vol-row{display:flex;align-items:center;gap:12px;}
 .vol-row input[type=range]{flex:1;height:6px;border-radius:3px;appearance:none;-webkit-appearance:none;background:rgba(255,255,255,0.12);outline:none;}
-.vol-row input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:linear-gradient(135deg,var(--pu),var(--pk));cursor:pointer;box-shadow:0 0 8px rgba(155,93,229,0.5);}
+.vol-row input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:linear-gradient(135deg,var(--pu),var(--pk));cursor:pointer;}
 .vol-num{font-size:14px;font-weight:700;color:#c084fc;min-width:38px;text-align:right;}
 
-/* ═══ EMPTY ═══ */
+/* Empty */
 .empty-state{text-align:center;padding:40px 20px;color:var(--mut);}
 .empty-icon{font-size:52px;margin-bottom:12px;}
 .empty-text{font-size:15px;font-weight:700;}
 .empty-sub{font-size:13px;margin-top:4px;opacity:.7;}
 
-/* ═══ NEXT BANNER ═══ */
+/* Next banner */
 .next-banner{background:linear-gradient(135deg,rgba(155,93,229,0.15),rgba(0,212,255,0.08));border:1px solid rgba(155,93,229,0.3);border-radius:var(--rs);padding:10px 14px;display:flex;align-items:center;gap:10px;margin-bottom:12px;}
 .nb-icon{font-size:18px;}
 .nb-text{font-size:13px;font-weight:700;color:#c084fc;}
 
-/* ═══ SETTINGS ═══ */
-.url-row{display:flex;gap:8px;}
-.url-row input[type=text]{flex:1;height:44px;background:rgba(255,255,255,0.07);border:1px solid rgba(180,120,255,0.25);border-radius:var(--rs);color:var(--txt);font-family:'Nunito',sans-serif;font-size:13px;padding:0 12px;}
-.url-row input::placeholder{color:var(--mut);}
-.url-row input:focus{outline:none;border-color:var(--pu);}
-.url-add{height:44px;padding:0 16px;border-radius:var(--rs);border:1px solid var(--pu);background:transparent;color:#c084fc;font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;cursor:pointer;}
+/* Settings inputs */
 .snooze-row{display:flex;align-items:center;gap:12px;}
 .snooze-row input[type=number]{width:70px;height:44px;background:rgba(255,255,255,0.07);border:1px solid rgba(180,120,255,0.25);border-radius:var(--rs);color:var(--txt);font-family:'Space Mono',monospace;font-size:20px;font-weight:700;text-align:center;-moz-appearance:textfield;}
 .snooze-row input::-webkit-inner-spin-button,.snooze-row input::-webkit-outer-spin-button{display:none;}
 .snooze-row span{font-size:14px;color:var(--mut);font-weight:700;}
-.custom-track{display:flex;align-items:center;gap:8px;padding:10px 0;border-top:1px solid rgba(180,120,255,0.12);}
-.custom-track-info{flex:1;min-width:0;}
-.custom-track-name{font-size:13px;font-weight:700;color:var(--txt);}
-.custom-track-url{font-size:11px;color:var(--mut);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.form-input{width:100%;height:44px;background:rgba(255,255,255,0.07);border:1px solid rgba(180,120,255,0.25);border-radius:var(--rs);color:var(--txt);font-family:'Nunito',sans-serif;font-size:13px;padding:0 12px;display:block;margin-bottom:8px;}
+.form-input::placeholder{color:var(--mut);}
+.form-input:focus{outline:none;border-color:var(--pu);}
+.form-row{display:flex;gap:8px;}
+.add-music-btn{height:44px;padding:0 18px;border-radius:var(--rs);border:none;background:linear-gradient(135deg,var(--pu),var(--pk));color:white;font-family:'Nunito',sans-serif;font-size:14px;font-weight:900;cursor:pointer;flex-shrink:0;}
+.toast{font-size:12px;font-weight:700;color:#06d6a0;min-height:20px;padding:4px 0;}
 
-/* ═══ RINGING ═══ */
-#ring-screen{display:none;position:fixed;inset:0;z-index:200;background:linear-gradient(160deg,#1a0540 0%,#0a0320 40%,#0d1a3a 100%);flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px 24px;}
-#ring-screen.show{display:flex;}
+/* Ringing screen */
+#ring-screen{display:none;position:fixed;inset:0;z-index:200;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:36px 24px;}
+#ring-screen.show{display:flex;animation:ringPulse 1s ease-in-out infinite alternate;}
+@keyframes ringPulse{
+  from{background:linear-gradient(160deg,#1a0540 0%,#0a0320 40%,#0d1a3a 100%);}
+  to{background:linear-gradient(160deg,#30086a 0%,#180550 40%,#0d2255 100%);}}
 .ring-bg{position:absolute;inset:0;pointer-events:none;
   background:radial-gradient(ellipse at 50% 30%,rgba(180,80,255,0.4) 0%,transparent 60%),
-             radial-gradient(ellipse at 20% 80%,rgba(0,150,255,0.2) 0%,transparent 50%),
              radial-gradient(ellipse at 80% 75%,rgba(220,60,255,0.2) 0%,transparent 50%);}
-.ring-alien{font-size:90px;margin-bottom:8px;animation:rb .55s ease-in-out infinite alternate;position:relative;z-index:1;filter:drop-shadow(0 0 20px rgba(180,100,255,0.7));}
-@keyframes rb{from{transform:translateY(0) rotate(-6deg) scale(1);}to{transform:translateY(-18px) rotate(6deg) scale(1.08);}}
-.ring-time{font-family:'Space Mono',monospace;font-size:68px;font-weight:700;background:linear-gradient(135deg,#c084fc,#f72585,#00d4ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1;margin-bottom:6px;position:relative;z-index:1;}
-.ring-label{font-size:16px;font-weight:800;color:var(--mut);margin-bottom:40px;position:relative;z-index:1;}
-/* Sound note: show info text when YT music is set */
-.ring-yt-note{font-size:12px;color:rgba(180,140,255,0.7);margin-top:-30px;margin-bottom:26px;position:relative;z-index:1;}
-.ring-btns{display:flex;flex-direction:column;gap:12px;width:100%;max-width:300px;position:relative;z-index:1;}
-.stop-btn{width:100%;padding:18px;border-radius:var(--r);border:none;background:linear-gradient(135deg,var(--pu),var(--pk));color:white;font-family:'Nunito',sans-serif;font-size:18px;font-weight:900;cursor:pointer;box-shadow:0 6px 24px rgba(155,93,229,0.5);}
-.snooze-btn{width:100%;padding:15px;border-radius:var(--r);border:1px solid rgba(180,120,255,0.3);background:rgba(255,255,255,0.06);color:var(--txt);font-family:'Nunito',sans-serif;font-size:16px;font-weight:800;cursor:pointer;}
-.yt-open-btn{width:100%;padding:13px;border-radius:var(--r);border:1px solid rgba(255,80,80,0.4);background:rgba(255,60,60,0.1);color:#ff8080;font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;cursor:pointer;}
+.ring-alien{font-size:88px;margin-bottom:6px;position:relative;z-index:1;
+  filter:drop-shadow(0 0 20px rgba(180,100,255,0.7));
+  animation:rb .5s ease-in-out infinite alternate;}
+@keyframes rb{from{transform:translateY(0) rotate(-6deg);}to{transform:translateY(-18px) rotate(6deg);}}
+.ring-time{font-family:'Space Mono',monospace;font-size:70px;font-weight:700;
+  background:linear-gradient(135deg,#c084fc,#f72585,#00d4ff);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  line-height:1;margin-bottom:4px;position:relative;z-index:1;}
+.ring-label{font-size:17px;font-weight:800;color:var(--mut);margin-bottom:6px;position:relative;z-index:1;}
+.ring-hint{font-size:12px;color:rgba(180,140,255,0.7);margin-bottom:32px;position:relative;z-index:1;}
+.ring-btns{display:flex;flex-direction:column;gap:10px;width:100%;max-width:300px;position:relative;z-index:1;}
+.stop-btn{width:100%;padding:18px;border-radius:var(--r);border:none;background:linear-gradient(135deg,var(--pu),var(--pk));color:white;font-family:'Nunito',sans-serif;font-size:19px;font-weight:900;cursor:pointer;box-shadow:0 6px 24px rgba(155,93,229,0.5);}
+.stop-btn:active{transform:scale(0.97);}
+.yt-btn{width:100%;padding:14px;border-radius:var(--r);border:1.5px solid rgba(255,80,80,0.5);background:rgba(255,50,50,0.1);color:#ff7070;font-family:'Nunito',sans-serif;font-size:15px;font-weight:800;cursor:pointer;}
+.snooze-btn{width:100%;padding:14px;border-radius:var(--r);border:1px solid rgba(180,120,255,0.3);background:rgba(255,255,255,0.06);color:var(--txt);font-family:'Nunito',sans-serif;font-size:15px;font-weight:800;cursor:pointer;}
 
-/* ═══ EDIT MODAL ═══ */
-#edit-modal{display:none;position:fixed;inset:0;z-index:150;background:rgba(0,0,0,0.6);align-items:flex-end;justify-content:center;}
+/* Edit modal */
+#edit-modal{display:none;position:fixed;inset:0;z-index:150;background:rgba(0,0,0,0.65);align-items:flex-end;justify-content:center;}
 #edit-modal.show{display:flex;}
 .modal-sheet{background:#150830;border-radius:26px 26px 0 0;padding:20px 18px calc(30px + env(safe-area-inset-bottom,0px));width:100%;max-width:480px;max-height:90dvh;overflow-y:auto;border-top:1px solid rgba(180,120,255,0.25);}
 .modal-handle{width:40px;height:4px;background:rgba(180,120,255,0.3);border-radius:2px;margin:0 auto 16px;}
-.modal-title{font-size:17px;font-weight:900;color:var(--txt);margin-bottom:4px;text-align:center;}
+.modal-title{font-size:17px;font-weight:900;color:var(--txt);text-align:center;margin-bottom:4px;}
 .modal-footer{display:flex;gap:10px;margin-top:16px;}
 .m-cancel{flex:1;padding:13px;border-radius:var(--r);border:1px solid rgba(180,120,255,0.3);background:transparent;color:var(--mut);font-family:'Nunito',sans-serif;font-size:15px;font-weight:800;cursor:pointer;}
 .m-save{flex:2;padding:13px;border-radius:var(--r);border:none;background:linear-gradient(135deg,var(--pu),var(--pk));color:white;font-family:'Nunito',sans-serif;font-size:15px;font-weight:900;cursor:pointer;}
-
-/* Music track selector in add/edit */
-.yt-selector{display:flex;flex-direction:column;gap:6px;}
-.yt-track-item{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:var(--rs);border:1px solid rgba(180,120,255,0.18);background:rgba(255,255,255,0.04);cursor:pointer;transition:all .15s;}
-.yt-track-item.picked{border-color:var(--pu);background:rgba(155,93,229,0.15);}
-.yt-track-item.picked::before{content:'✓';font-size:13px;font-weight:900;color:#c084fc;flex-shrink:0;}
-.yt-track-item:not(.picked)::before{content:'○';font-size:13px;color:var(--mut);flex-shrink:0;}
-.yt-item-name{font-size:13px;font-weight:700;color:var(--txt);flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-.yt-item-url{font-size:11px;color:var(--mut);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-.no-music-tip{font-size:13px;color:var(--mut);text-align:center;padding:16px;line-height:1.5;}
 
 .bottom-pad{height:28px;}
 </style>
 </head>
 <body>
 
-<div class="bg-canvas">
+<div class="bg">
   <div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
   <div class="blob b4"></div><div class="blob b5"></div><div class="blob b6"></div>
   <div class="floats">
     <span class="fs">👽</span><span class="fs">🛸</span><span class="fs">⭐</span>
     <span class="fs">🌌</span><span class="fs">💫</span><span class="fs">🪐</span>
-    <span class="fs">✨</span><span class="fs">🌟</span>
   </div>
 </div>
 
@@ -381,13 +269,18 @@ body{font-family:'Nunito',sans-serif;color:var(--txt);display:flex;flex-directio
   <div class="clock-section">
     <div><span class="alien-wobble">👽</span></div>
     <div class="clock-face" id="clock">00:00:00</div>
-    <div class="clock-date" id="date-str"></div>
+    <div class="clock-date"  id="date-str"></div>
+  </div>
+
+  <div class="keep-bar">
+    <span>💡</span>
+    <p>iPhone 使用提示：請讓螢幕保持亮著，鬧鐘才能在時間到時響起</p>
   </div>
 
   <div class="tab-bar">
     <button class="tab-btn active" id="tab-list-btn" onclick="switchTab('list')">⏰ 鬧鐘</button>
-    <button class="tab-btn" id="tab-add-btn"  onclick="switchTab('add')">＋ 新增</button>
-    <button class="tab-btn" id="tab-cfg-btn"  onclick="switchTab('settings')">⚙️ 設定</button>
+    <button class="tab-btn"        id="tab-add-btn"  onclick="switchTab('add')">＋ 新增</button>
+    <button class="tab-btn"        id="tab-cfg-btn"  onclick="switchTab('settings')">⚙️ 設定</button>
   </div>
 
   <!-- LIST -->
@@ -419,15 +312,14 @@ body{font-family:'Nunito',sans-serif;color:var(--txt);display:flex;flex-directio
         <button class="day-pill on" data-d="6">六</button>
       </div>
     </div>
-    <div class="sec-lbl">選擇 YouTube 音樂</div>
-    <div class="card">
-      <div id="add-yt-sel"></div>
-    </div>
-    <div class="sec-lbl">音量（鬧鈴提示音）</div>
+    <div class="sec-lbl">搭配 YouTube 音樂（選填）</div>
+    <div class="card"><div id="add-yt-sel"></div></div>
+    <div class="sec-lbl">鬧鈴音量</div>
     <div class="card">
       <div class="vol-row">
         <span style="font-size:18px">🔈</span>
-        <input type="range" min="0" max="100" value="80" step="1" id="a-vol" oninput="document.getElementById('a-vol-d').textContent=this.value+'%'">
+        <input type="range" min="0" max="100" value="80" step="1" id="a-vol"
+          oninput="document.getElementById('a-vol-d').textContent=this.value+'%'">
         <span class="vol-num" id="a-vol-d">80%</span>
       </div>
     </div>
@@ -437,16 +329,15 @@ body{font-family:'Nunito',sans-serif;color:var(--txt);display:flex;flex-directio
 
   <!-- SETTINGS -->
   <div class="panel" id="panel-settings">
-    <div class="sec-lbl">🎵 新增 YouTube 音樂</div>
+    <div class="sec-lbl">🎵 YouTube 音樂管理</div>
     <div class="card">
-      <input type="text" id="yt-name" placeholder="音樂名稱（例：海底總動員）"
-        style="width:100%;height:44px;background:rgba(255,255,255,0.07);border:1px solid rgba(180,120,255,0.25);border-radius:12px;color:#f0e8ff;font-family:'Nunito',sans-serif;font-size:13px;padding:0 12px;margin-bottom:8px;display:block;">
-      <div class="url-row" style="margin-bottom:10px">
-        <input type="text" id="yt-url" placeholder="貼上 YouTube 網址…">
-        <button class="url-add" onclick="addCustom()">加入</button>
+      <input type="text" class="form-input" id="yt-name" placeholder="音樂名稱（例：Let It Go）">
+      <div class="form-row">
+        <input type="text" class="form-input" id="yt-url" placeholder="YouTube 網址…" style="margin-bottom:0;flex:1">
+        <button class="add-music-btn" onclick="addMusic()">加入</button>
       </div>
-      <div id="add-toast" style="display:none;font-size:13px;font-weight:700;color:#06d6a0;padding:6px 0 2px;">✓ 已加入！</div>
-      <div id="custom-list"></div>
+      <div class="toast" id="music-toast"></div>
+      <div id="music-list" style="margin-top:4px"></div>
     </div>
     <div class="sec-lbl">貪睡時間</div>
     <div class="card">
@@ -469,11 +360,11 @@ body{font-family:'Nunito',sans-serif;color:var(--txt);display:flex;flex-directio
   <div class="ring-alien">👽</div>
   <div class="ring-time"  id="r-time">07:00</div>
   <div class="ring-label" id="r-label">起床囉！</div>
-  <div class="ring-yt-note" id="r-yt-note"></div>
+  <div class="ring-hint"  id="r-hint"></div>
   <div class="ring-btns">
-    <button class="stop-btn"    onclick="stopAlarm()">關掉鬧鐘 ✓</button>
-    <button class="yt-open-btn" id="yt-open-btn" onclick="openYT()" style="display:none">▶ 開啟 YouTube 音樂</button>
-    <button class="snooze-btn"  id="snooze-btn" onclick="doSnooze()">💤 再睡一下</button>
+    <button class="stop-btn"   onclick="stopAlarm()">關掉鬧鐘 ✓</button>
+    <button class="yt-btn"     id="yt-open-btn" style="display:none" onclick="openYT()">▶ 播放 YouTube 音樂</button>
+    <button class="snooze-btn" id="snooze-btn"  onclick="doSnooze()">💤 再睡一下</button>
   </div>
 </div>
 
@@ -502,18 +393,8 @@ body{font-family:'Nunito',sans-serif;color:var(--txt);display:flex;flex-directio
         <button class="day-pill on" data-d="6">六</button>
       </div>
     </div>
-    <div class="sec-lbl">選擇 YouTube 音樂</div>
-    <div class="card">
-      <div id="edit-yt-sel"></div>
-    </div>
-    <div class="sec-lbl">音量（鬧鈴提示音）</div>
-    <div class="card">
-      <div class="vol-row">
-        <span style="font-size:18px">🔈</span>
-        <input type="range" min="0" max="100" value="80" step="1" id="e-vol" oninput="document.getElementById('e-vol-d').textContent=this.value+'%'">
-        <span class="vol-num" id="e-vol-d">80%</span>
-      </div>
-    </div>
+    <div class="sec-lbl">搭配 YouTube 音樂（選填）</div>
+    <div class="card"><div id="edit-yt-sel"></div></div>
     <div class="modal-footer">
       <button class="m-cancel" onclick="closeEdit()">取消</button>
       <button class="m-save"   onclick="applyEdit()">儲存 ✓</button>
@@ -523,113 +404,116 @@ body{font-family:'Nunito',sans-serif;color:var(--txt);display:flex;flex-directio
 
 <script>
 /* ── DATA ── */
-let alarms      = JSON.parse(localStorage.getItem('al_v5') || '[]');
-let customMusic = JSON.parse(localStorage.getItem('cm_v5') || '[]');
+let alarms    = JSON.parse(localStorage.getItem('al_v7') || '[]');
+let musicList = JSON.parse(localStorage.getItem('ml_v7') || '[]');
 let addSel = null, editSel = null, editingId = null;
 let ringingId = null, beepIv = null, actx = null, snoozeT = null;
-let currentRingYtUrl = null;
+let ringYtUrl = null;
 
-const TW = ['日','一','二','三','四','五','六'];
-const pad = n => String(Math.max(0,Math.min(99,parseInt(n)||0))).padStart(2,'0');
-const saveD = () => { localStorage.setItem('al_v5',JSON.stringify(alarms)); localStorage.setItem('cm_v5',JSON.stringify(customMusic)); };
-const byId = id => customMusic.find(m => m.id===id) || null;
+const TW  = ['日','一','二','三','四','五','六'];
+const pad = n => String(Math.max(0, Math.min(99, parseInt(n)||0))).padStart(2,'0');
+const saveD = () => {
+  localStorage.setItem('al_v7', JSON.stringify(alarms));
+  localStorage.setItem('ml_v7', JSON.stringify(musicList));
+};
+const musicById = id => musicList.find(m => m.id === id) || null;
 
 /* ── CLOCK ── */
-function tick(){
+function tick() {
   const n = new Date();
   document.getElementById('clock').textContent = `${pad(n.getHours())}:${pad(n.getMinutes())}:${pad(n.getSeconds())}`;
   document.getElementById('date-str').textContent = `${n.getFullYear()}年${n.getMonth()+1}月${n.getDate()}日（${TW[n.getDay()]}）`;
   checkAlarms(n);
 }
-setInterval(tick,1000); tick();
+setInterval(tick, 1000); tick();
 
 /* ── TABS ── */
-function switchTab(t){
-  ['list','add','settings'].forEach(x=>{
-    document.getElementById('panel-'+x).classList.toggle('active',x===t);
-    document.getElementById('tab-'+(x==='settings'?'cfg':x)+'-btn').classList.toggle('active',x===t);
+function switchTab(t) {
+  ['list','add','settings'].forEach(x => {
+    document.getElementById('panel-'+x).classList.toggle('active', x===t);
+    const btn = document.getElementById('tab-'+(x==='settings'?'cfg':x)+'-btn');
+    if (btn) btn.classList.toggle('active', x===t);
   });
-  if(t==='add') renderYtSel('add-yt-sel','add');
+  if (t==='add') renderYtSel('add-yt-sel', 'add');
 }
 
 /* ── YT SELECTOR ── */
-function renderYtSel(containerId, mode){
-  const el = document.getElementById(containerId);
-  if(!customMusic.length){
-    el.innerHTML = '<div class="no-music-tip">尚未加入任何 YouTube 音樂<br>請到「設定」頁面新增</div>';
+function renderYtSel(containerId, mode) {
+  const el = document.getElementById(containerId); if(!el) return;
+  const sel = mode==='add' ? addSel : editSel;
+  if (!musicList.length) {
+    el.innerHTML = '<div class="no-music-tip">尚未加入音樂<br>可到「⚙️ 設定」新增 YouTube 連結</div>';
     return;
   }
-  const sel = mode==='add' ? addSel : editSel;
-  el.innerHTML = '<div class="yt-selector">'+customMusic.map(m=>`
-    <div class="yt-track-item ${sel===m.id?'picked':''}" onclick="pickYt('${mode}','${m.id}')">
-      <div class="yt-item-name">${m.name}</div>
-      <div class="yt-item-url">${m.url}</div>
-    </div>`).join('')+'</div>';
+  el.innerHTML = '<div class="yt-selector">' + musicList.map(m => `
+    <div class="yt-track ${sel===m.id?'picked':''}" onclick="pickYt('${mode}','${m.id}')">
+      <div>
+        <div class="yt-track-name">${m.name}</div>
+        <div class="yt-track-url">${m.url}</div>
+      </div>
+    </div>`).join('') + '</div>';
 }
-function pickYt(mode, id){
-  if(mode==='add'){ addSel=id; renderYtSel('add-yt-sel','add'); }
-  else { editSel=id; renderYtSel('edit-yt-sel','edit'); }
+function pickYt(mode, id) {
+  /* toggle off if already selected */
+  if (mode==='add') { addSel = (addSel===id ? null : id); renderYtSel('add-yt-sel','add'); }
+  else              { editSel = (editSel===id ? null : id); renderYtSel('edit-yt-sel','edit'); }
 }
 
-/* ── DAYS ── */
-document.querySelectorAll('.day-pill').forEach(b=>b.addEventListener('click',()=>b.classList.toggle('on')));
+/* ── DAY PILLS ── */
+document.querySelectorAll('.day-pill').forEach(b => b.addEventListener('click', () => b.classList.toggle('on')));
 
 /* ── SAVE ALARM ── */
-function saveAlarm(){
-  const h = parseInt(document.getElementById('a-h').value)||0;
-  const m = parseInt(document.getElementById('a-m').value)||0;
-  const days = [...document.querySelectorAll('#add-days .day-pill.on')].map(b=>+b.dataset.d);
-  if(!days.length){ alert('請至少選一天！'); return; }
-  const vol = parseInt(document.getElementById('a-vol').value);
-  alarms.push({ id:Date.now().toString(), h, m, days, musicId:addSel, vol, on:true });
-  alarms.sort((a,b)=>a.h*60+a.m-(b.h*60+b.m));
+function saveAlarm() {
+  const h    = parseInt(document.getElementById('a-h').value) || 0;
+  const m    = parseInt(document.getElementById('a-m').value) || 0;
+  const days = [...document.querySelectorAll('#add-days .day-pill.on')].map(b => +b.dataset.d);
+  if (!days.length) { alert('請至少選一天！'); return; }
+  const vol  = parseInt(document.getElementById('a-vol').value);
+  alarms.push({ id: Date.now().toString(), h, m, days, musicId: addSel, vol, on: true });
+  alarms.sort((a,b) => a.h*60+a.m - (b.h*60+b.m));
   saveD(); renderList(); switchTab('list');
 }
 
 /* ── EDIT ── */
-function openEdit(id){
-  const a = alarms.find(x=>x.id===id); if(!a) return;
+function openEdit(id) {
+  const a = alarms.find(x => x.id===id); if(!a) return;
   editingId = id;
   document.getElementById('e-h').value = pad(a.h);
   document.getElementById('e-m').value = pad(a.m);
-  document.getElementById('e-vol').value = a.vol||80;
-  document.getElementById('e-vol-d').textContent = (a.vol||80)+'%';
-  document.querySelectorAll('#edit-days .day-pill').forEach(b=>b.classList.toggle('on',a.days.includes(+b.dataset.d)));
+  document.querySelectorAll('#edit-days .day-pill').forEach(b => b.classList.toggle('on', a.days.includes(+b.dataset.d)));
   editSel = a.musicId;
-  renderYtSel('edit-yt-sel','edit');
+  renderYtSel('edit-yt-sel', 'edit');
   document.getElementById('edit-modal').classList.add('show');
 }
-function closeEdit(){ editingId=null; document.getElementById('edit-modal').classList.remove('show'); }
-function applyEdit(){
-  const a = alarms.find(x=>x.id===editingId); if(!a){ closeEdit(); return; }
-  a.h = parseInt(document.getElementById('e-h').value)||0;
-  a.m = parseInt(document.getElementById('e-m').value)||0;
-  a.days = [...document.querySelectorAll('#edit-days .day-pill.on')].map(b=>+b.dataset.d);
-  if(!a.days.length){ alert('請至少選一天！'); return; }
-  a.vol = parseInt(document.getElementById('e-vol').value);
+function closeEdit() { editingId=null; document.getElementById('edit-modal').classList.remove('show'); }
+function applyEdit() {
+  const a = alarms.find(x => x.id===editingId); if(!a) { closeEdit(); return; }
+  a.h    = parseInt(document.getElementById('e-h').value) || 0;
+  a.m    = parseInt(document.getElementById('e-m').value) || 0;
+  a.days = [...document.querySelectorAll('#edit-days .day-pill.on')].map(b => +b.dataset.d);
+  if (!a.days.length) { alert('請至少選一天！'); return; }
   a.musicId = editSel;
-  alarms.sort((a,b)=>a.h*60+a.m-(b.h*60+b.m));
+  alarms.sort((a,b) => a.h*60+a.m - (b.h*60+b.m));
   saveD(); renderList(); closeEdit();
 }
-document.getElementById('edit-modal').addEventListener('click',e=>{if(e.target===document.getElementById('edit-modal'))closeEdit();});
+document.getElementById('edit-modal').addEventListener('click', e => { if(e.target===document.getElementById('edit-modal')) closeEdit(); });
 
 /* ── RENDER LIST ── */
-function renderList(){
+function renderList() {
   const el = document.getElementById('alarm-list');
-  if(!alarms.length){
-    el.innerHTML = '<div class="empty-state"><div class="empty-icon">👽</div><div class="empty-text">還沒有鬧鐘</div><div class="empty-sub">點「新增」設定起床時間</div></div>';
+  if (!alarms.length) {
+    el.innerHTML = `<div class="empty-state"><div class="empty-icon">👽</div><div class="empty-text">還沒有鬧鐘</div><div class="empty-sub">點上方「＋ 新增」設定起床時間</div></div>`;
     document.getElementById('next-banner').innerHTML = ''; return;
   }
-  el.innerHTML = alarms.map(a=>{
-    const mu = byId(a.musicId);
-    const ds = a.days.length===7?'每天':a.days.map(d=>TW[d]).join('、');
-    const musicLabel = mu ? `🎵 ${mu.name}` : '🔔 提示音';
+  el.innerHTML = alarms.map(a => {
+    const mu = musicById(a.musicId);
+    const ds = a.days.length===7 ? '每天' : a.days.map(d => TW[d]).join('、');
+    const ml = mu ? `🎵 ${mu.name}` : '🔔 純提示音';
     return `<div class="alarm-item ${a.on?'on':''}">
-      <div class="alarm-emoji">👽</div>
       <div class="alarm-info">
         <div class="alarm-time-text">${pad(a.h)}:${pad(a.m)}</div>
         <div class="alarm-sub">${ds}</div>
-        <div class="alarm-music-tag">${musicLabel}</div>
+        <div class="alarm-music-tag">${ml}</div>
       </div>
       <div class="alarm-actions">
         <button class="icon-btn" onclick="openEdit('${a.id}')">✏️</button>
@@ -644,183 +528,181 @@ function renderList(){
   updateBanner();
 }
 
-function updateBanner(){
+function updateBanner() {
   const n=new Date(), cm=n.getHours()*60+n.getMinutes(), cd=n.getDay();
   let best=Infinity, soonest=null;
-  alarms.forEach(a=>{
-    if(!a.on)return;
-    for(let dd=0;dd<7;dd++){
-      const day=(cd+dd)%7;
-      if(!a.days.includes(day))continue;
+  alarms.forEach(a => {
+    if (!a.on) return;
+    for (let dd=0; dd<7; dd++) {
+      const day=(cd+dd)%7; if (!a.days.includes(day)) continue;
       const am=a.h*60+a.m;
       const diff=dd===0?(am>cm?am-cm:24*60-cm+am+(6*24*60)):(dd*24*60-cm+am);
-      if(diff<best){best=diff;soonest=a;} break;
+      if (diff<best) { best=diff; soonest=a; } break;
     }
   });
   const bn = document.getElementById('next-banner');
-  if(!soonest){bn.innerHTML='';return;}
-  const mu = byId(soonest.musicId);
+  if (!soonest) { bn.innerHTML=''; return; }
+  const mu = musicById(soonest.musicId);
   const ts = best<60?`${best}分鐘後`:best<1440?`${Math.floor(best/60)}小時${best%60}分後`:`${Math.floor(best/1440)}天後`;
-  const ml = mu?`🎵 ${mu.name}`:'🔔';
-  bn.innerHTML=`<div class="next-banner"><span class="nb-icon">🔔</span><span class="nb-text">下一個：${pad(soonest.h)}:${pad(soonest.m)} — ${ts} ${ml}</span></div>`;
+  bn.innerHTML = `<div class="next-banner"><span class="nb-icon">🔔</span><span class="nb-text">下一個：${pad(soonest.h)}:${pad(soonest.m)} — ${ts}${mu?` 🎵 ${mu.name}`:''}</span></div>`;
 }
 
-function toggleA(id,v){ const a=alarms.find(x=>x.id===id); if(a){a.on=v;saveD();renderList();} }
-function deleteA(id){ alarms=alarms.filter(x=>x.id!==id); saveD(); renderList(); }
-function clearAll(){ if(confirm('確定要刪除所有鬧鐘嗎？')){alarms=[];saveD();renderList();} }
+function toggleA(id, v) { const a=alarms.find(x=>x.id===id); if(a){a.on=v; saveD(); renderList();} }
+function deleteA(id) { alarms=alarms.filter(x=>x.id!==id); saveD(); renderList(); }
+function clearAll() { if(confirm('確定要刪除所有鬧鐘嗎？')) { alarms=[]; saveD(); renderList(); } }
 
 /* ── CHECK ALARMS ── */
-function checkAlarms(n){
-  if(ringingId)return;
-  const h=n.getHours(),m=n.getMinutes(),s=n.getSeconds(),d=n.getDay();
-  alarms.forEach(a=>{ if(a.on&&a.h===h&&a.m===m&&s===0&&a.days.includes(d)) ring(a); });
+function checkAlarms(n) {
+  if (ringingId) return;
+  const h=n.getHours(), m=n.getMinutes(), s=n.getSeconds(), d=n.getDay();
+  alarms.forEach(a => { if(a.on && a.h===h && a.m===m && s===0 && a.days.includes(d)) ring(a); });
 }
 
 /* ── RING ── */
-function ring(alarm){
-  if(ringingId)return;
+function ring(alarm) {
+  if (ringingId) return;
   ringingId = alarm.id;
-  const mu = byId(alarm.musicId);
-  currentRingYtUrl = mu ? mu.url : null;
-  document.getElementById('r-time').textContent = `${pad(alarm.h)}:${pad(alarm.m)}`;
-  document.getElementById('r-label').textContent = mu ? `${mu.name} — 起床囉！` : '起床囉！';
+  const mu = musicById(alarm.musicId);
+  ringYtUrl = mu ? mu.url : null;
+
+  document.getElementById('r-time').textContent  = `${pad(alarm.h)}:${pad(alarm.m)}`;
+  document.getElementById('r-label').textContent = '起床囉！👽';
+
   const ytBtn = document.getElementById('yt-open-btn');
-  const ytNote = document.getElementById('r-yt-note');
-  if(currentRingYtUrl){
+  if (ringYtUrl) {
     ytBtn.style.display = 'block';
-    ytNote.textContent = '點下方按鈕開啟 YouTube 播放音樂 🎵';
+    ytBtn.textContent   = `▶ 播放「${mu.name}」`;
+    document.getElementById('r-hint').textContent = '點下方按鈕開啟 YouTube 音樂 🎵';
   } else {
     ytBtn.style.display = 'none';
-    ytNote.textContent = '';
+    document.getElementById('r-hint').textContent = '';
   }
-  const sm = parseInt(document.getElementById('snooze-inp').value)||5;
+
+  const sm = parseInt(document.getElementById('snooze-inp').value) || 5;
   document.getElementById('snooze-btn').textContent = `💤 再睡 ${sm} 分鐘`;
+
   document.getElementById('ring-screen').classList.add('show');
-  /* Sound plays on user gesture — triggered by button tap below */
-  /* But we still try to play immediately in case AudioContext already unlocked */
-  playBeep((alarm.vol||80)/100);
+
+  /* Play beep — tries immediately; if AudioContext suspended, resumes on first button tap */
+  startBeep((alarm.vol||80) / 100);
 }
 
-/* ── SOUND: plays immediately if ctx unlocked, otherwise queued to button tap ── */
-let pendingVol = 0;
-function playBeep(vol){
+/* ── BEEP (Web Audio) ── */
+let pendingVol = 0.8;
+function startBeep(vol) {
   pendingVol = vol;
-  try{
-    actx = new(window.AudioContext||window.webkitAudioContext)();
-    if(actx.state === 'suspended'){
-      /* Will be resumed on next user tap — stop/snooze buttons call resumeAndPlay() */
-      return;
-    }
-    startBeepLoop(vol);
-  }catch(e){}
+  try {
+    actx = new (window.AudioContext || window.webkitAudioContext)();
+    if (actx.state === 'suspended') return; /* will resume on tap */
+    runBeepLoop(vol);
+  } catch(e) {}
 }
-function resumeAndPlay(){
-  if(!actx) return;
-  if(actx.state === 'suspended'){
-    actx.resume().then(()=>startBeepLoop(pendingVol));
-  }
+function resumeBeep() {
+  if (!actx) return;
+  actx.resume().then(() => { if (ringingId) runBeepLoop(pendingVol); });
 }
-function startBeepLoop(vol){
+function runBeepLoop(vol) {
   clearInterval(beepIv);
-  /* Bright cheerful 3-note ding pattern */
-  const notes = [[784,0.12],[988,0.12],[1175,0.18],[0,0.08],[784,0.12],[988,0.12],[1175,0.3]];
-  const bpm = 200, beat = 60/bpm;
-  function playPattern(){
-    let t = actx.currentTime + 0.02;
-    notes.forEach(([freq,dur])=>{
-      if(!freq){t+=dur*beat;return;}
-      const o=actx.createOscillator(), gn=actx.createGain();
+  /* Classic alarm: two-tone beep pattern */
+  function beepPattern() {
+    const t0 = actx.currentTime + 0.02;
+    [[880,0,0.12],[880,0.18,0.12],[880,0.36,0.12],[0,0],[1109,0.6,0.18],[1109,0.84,0.18]].forEach(([freq, when, dur]) => {
+      if (!freq) return;
+      const o = actx.createOscillator();
+      const gn = actx.createGain();
       o.connect(gn); gn.connect(actx.destination);
-      o.type='sine'; o.frequency.value=freq;
-      gn.gain.setValueAtTime(0,t);
-      gn.gain.linearRampToValueAtTime(vol*0.5,t+0.01);
-      gn.gain.exponentialRampToValueAtTime(0.001,t+dur*beat*0.9);
-      o.start(t); o.stop(t+dur*beat);
-      t+=dur*beat;
+      o.type = 'square';
+      o.frequency.value = freq;
+      gn.gain.setValueAtTime(0, t0+when);
+      gn.gain.linearRampToValueAtTime(vol * 0.35, t0+when+0.01);
+      gn.gain.setValueAtTime(vol * 0.3, t0+when+dur*0.8);
+      gn.gain.linearRampToValueAtTime(0, t0+when+dur);
+      o.start(t0+when); o.stop(t0+when+dur);
     });
   }
-  playPattern();
-  const totalMs = notes.reduce((s,[,d])=>s+d*beat,0)*1000;
-  beepIv = setInterval(()=>{ try{playPattern();}catch(e){} }, Math.ceil(totalMs)+400);
+  beepPattern();
+  beepIv = setInterval(() => { try { beepPattern(); } catch(e) {} }, 1400);
 }
 
-function stopAlarm(){
-  resumeAndPlay(); /* unlock audio context on this gesture */
-  setTimeout(()=>{
-    ringingId=null; currentRingYtUrl=null;
+function stopAlarm() {
+  resumeBeep(); /* unlock AudioContext on this user gesture */
+  setTimeout(() => {
+    ringingId = null; ringYtUrl = null;
     clearInterval(beepIv); clearTimeout(snoozeT);
-    try{actx&&actx.close();}catch(e){} actx=null;
+    try { actx && actx.close(); } catch(e) {} actx = null;
     document.getElementById('ring-screen').classList.remove('show');
-  }, 80);
+  }, 60);
 }
-function doSnooze(){
-  resumeAndPlay();
-  const sm = parseInt(document.getElementById('snooze-inp').value)||5;
+function doSnooze() {
+  resumeBeep();
+  const sm = parseInt(document.getElementById('snooze-inp').value) || 5;
   clearInterval(beepIv);
-  try{actx&&actx.close();}catch(e){} actx=null;
-  const id=ringingId; ringingId=null; currentRingYtUrl=null;
+  try { actx && actx.close(); } catch(e) {} actx = null;
+  const id = ringingId; ringingId = null; ringYtUrl = null;
   document.getElementById('ring-screen').classList.remove('show');
-  snoozeT = setTimeout(()=>{ const a=alarms.find(x=>x.id===id); if(a)ring(a); }, sm*60000);
+  snoozeT = setTimeout(() => { const a=alarms.find(x=>x.id===id); if(a) ring(a); }, sm*60000);
 }
-function openYT(){
-  resumeAndPlay();
-  if(currentRingYtUrl) window.open(currentRingYtUrl,'_blank');
+function openYT() {
+  resumeBeep();
+  if (ringYtUrl) window.open(ringYtUrl, '_blank');
 }
 
-/* ── CUSTOM MUSIC ── */
-function addCustom(){
-  const name = document.getElementById('yt-name').value.trim();
-  const url  = document.getElementById('yt-url').value.trim();
-  if(!url){ alert('請輸入 YouTube 網址'); return; }
-  if(!url.includes('youtube') && !url.includes('youtu.be')){
-    if(!confirm('這不像是 YouTube 網址，確定要加入嗎？')) return;
+/* ── MUSIC MANAGEMENT ── */
+function addMusic() {
+  const name  = document.getElementById('yt-name').value.trim();
+  const url   = document.getElementById('yt-url').value.trim();
+  const toast = document.getElementById('music-toast');
+  if (!url) { toast.textContent = '⚠️ 請輸入 YouTube 網址'; return; }
+  if (!url.includes('youtube') && !url.includes('youtu.be')) {
+    if (!confirm('這不像是 YouTube 網址，確定加入嗎？')) return;
   }
-  const displayName = name || ('音樂 '+(customMusic.length+1));
-  const id = 'c'+Date.now();
-  customMusic.push({ id, name:displayName, url });
-  document.getElementById('yt-name').value='';
-  document.getElementById('yt-url').value='';
-  saveD(); renderCustomList();
-  renderYtSel('add-yt-sel','add');
-  /* Show success toast */
-  const toast = document.getElementById('add-toast');
+  const displayName = name || `音樂 ${musicList.length+1}`;
+  musicList.push({ id: 'm'+Date.now(), name: displayName, url });
+  document.getElementById('yt-name').value = '';
+  document.getElementById('yt-url').value  = '';
+  saveD(); renderMusicList();
   toast.textContent = `✓ 已加入「${displayName}」！`;
-  toast.style.display = 'block';
-  setTimeout(()=>{ toast.style.display='none'; }, 3000);
+  setTimeout(() => { toast.textContent = ''; }, 3000);
 }
-function removeCustom(id){
-  customMusic = customMusic.filter(x=>x.id!==id);
-  /* clear musicId from alarms that used this track */
-  alarms.forEach(a=>{ if(a.musicId===id) a.musicId=null; });
-  saveD(); renderCustomList(); renderList();
-  renderYtSel('add-yt-sel','add');
+function delMusic(id) {
+  musicList = musicList.filter(x => x.id!==id);
+  alarms.forEach(a => { if(a.musicId===id) a.musicId=null; });
+  saveD(); renderMusicList(); renderList();
 }
-function renderCustomList(){
-  const el = document.getElementById('custom-list');
-  if(!customMusic.length){
-    el.innerHTML='<div style="font-size:13px;color:var(--mut);padding:8px 0;">尚未加入任何音樂</div>'; return;
+function renderMusicList() {
+  const el = document.getElementById('music-list');
+  if (!musicList.length) {
+    el.innerHTML = '<div style="font-size:13px;color:var(--mut);padding:6px 0;">尚未加入任何音樂</div>'; return;
   }
-  el.innerHTML = customMusic.map(m=>`
-    <div class="custom-track">
-      <div class="custom-track-info">
-        <div class="custom-track-name">🎵 ${m.name}</div>
-        <div class="custom-track-url">${m.url}</div>
+  el.innerHTML = musicList.map(m => `
+    <div style="display:flex;align-items:center;gap:8px;padding:9px 0;border-top:1px solid rgba(180,120,255,0.12);">
+      <span style="font-size:16px">🎵</span>
+      <div style="flex:1;min-width:0;">
+        <div style="font-size:13px;font-weight:700;color:var(--txt);">${m.name}</div>
+        <div style="font-size:11px;color:var(--mut);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${m.url}</div>
       </div>
-      <button onclick="removeCustom('${m.id}')" style="border:none;background:transparent;color:var(--mut);font-size:18px;cursor:pointer;flex-shrink:0;">✕</button>
+      <button onclick="delMusic('${m.id}')" style="border:none;background:transparent;color:var(--mut);font-size:18px;cursor:pointer;flex-shrink:0;">✕</button>
     </div>`).join('');
 }
-renderCustomList();
+renderMusicList();
 
 /* ── INPUT CLAMP ── */
-['a-h','e-h'].forEach(id=>document.getElementById(id).addEventListener('change',function(){let v=Math.max(0,Math.min(23,parseInt(this.value)||0));this.value=pad(v);}));
-['a-m','e-m'].forEach(id=>document.getElementById(id).addEventListener('change',function(){let v=Math.max(0,Math.min(59,parseInt(this.value)||0));this.value=pad(v);}));
+['a-h','e-h'].forEach(id => document.getElementById(id).addEventListener('change', function(){
+  this.value = pad(Math.max(0, Math.min(23, parseInt(this.value)||0)));
+}));
+['a-m','e-m'].forEach(id => document.getElementById(id).addEventListener('change', function(){
+  this.value = pad(Math.max(0, Math.min(59, parseInt(this.value)||0)));
+}));
 
-/* ── WAKE LOCK ── */
-async function reqWL(){ try{ if('wakeLock'in navigator) await navigator.wakeLock.request('screen'); }catch(e){} }
-reqWL(); document.addEventListener('visibilitychange',()=>{ if(!document.hidden) reqWL(); });
+/* ── WAKE LOCK (keep screen on) ── */
+async function reqWL() {
+  try { if ('wakeLock' in navigator) await navigator.wakeLock.request('screen'); } catch(e) {}
+}
+reqWL();
+document.addEventListener('visibilitychange', () => { if (!document.hidden) reqWL(); });
 
 /* ── INIT ── */
-renderYtSel('add-yt-sel','add');
+renderYtSel('add-yt-sel', 'add');
 renderList();
 </script>
 </body>
