@@ -229,6 +229,7 @@ body{font-family:'Nunito',sans-serif;color:var(--txt);display:flex;flex-directio
   filter:drop-shadow(0 0 20px rgba(180,100,255,0.7));
   animation:rb .5s ease-in-out infinite alternate;}
 @keyframes rb{from{transform:translateY(0) rotate(-6deg);}to{transform:translateY(-18px) rotate(6deg);}}
+@keyframes unlockPulse{from{transform:scale(1);}to{transform:scale(1.06);}}
 .ring-time{font-family:'Space Mono',monospace;font-size:70px;font-weight:700;
   background:linear-gradient(135deg,#c084fc,#f72585,#00d4ff);
   -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
@@ -273,8 +274,8 @@ body{font-family:'Nunito',sans-serif;color:var(--txt);display:flex;flex-directio
   </div>
 
   <div class="keep-bar">
-    <span>💡</span>
-    <p>iPhone 使用提示：請讓螢幕保持亮著，鬧鐘才能在時間到時響起</p>
+    <span>📱</span>
+    <p>iPhone 限制：螢幕關閉時網頁會暫停，鬧鐘無法響起。建議搭配 iPhone 原生時鐘設定相同時間，原生鬧鐘負責震動叫醒，此 App 負責播音樂。</p>
   </div>
 
   <div class="tab-bar">
@@ -361,6 +362,16 @@ body{font-family:'Nunito',sans-serif;color:var(--txt);display:flex;flex-directio
   <div class="ring-time"  id="r-time">07:00</div>
   <div class="ring-label" id="r-label">起床囉！</div>
   <div class="ring-hint"  id="r-hint"></div>
+  <!-- iOS requires user gesture to unlock audio — this button does that -->
+  <button id="unlock-btn" onclick="unlockAudio()" style="
+    margin-bottom:18px;padding:14px 32px;border-radius:50px;border:none;
+    background:linear-gradient(135deg,#ffd60a,#ff9500);color:#1a0a2e;
+    font-family:'Nunito',sans-serif;font-size:17px;font-weight:900;
+    cursor:pointer;position:relative;z-index:1;
+    box-shadow:0 4px 20px rgba(255,200,0,0.5);
+    animation:unlockPulse 0.8s ease-in-out infinite alternate;display:none;">
+    🔔 點我開聲音
+  </button>
   <div class="ring-btns">
     <button class="stop-btn"   onclick="stopAlarm()">關掉鬧鐘 ✓</button>
     <button class="yt-btn"     id="yt-open-btn" style="display:none" onclick="openYT()">▶ 播放 YouTube 音樂</button>
@@ -593,9 +604,19 @@ function startBeep(vol) {
   pendingVol = vol;
   try {
     actx = new (window.AudioContext || window.webkitAudioContext)();
-    if (actx.state === 'suspended') return; /* will resume on tap */
+    if (actx.state === 'suspended') {
+      /* iOS blocks autoplay — show the unlock button */
+      document.getElementById('unlock-btn').style.display = 'block';
+      return;
+    }
+    document.getElementById('unlock-btn').style.display = 'none';
     runBeepLoop(vol);
   } catch(e) {}
+}
+function unlockAudio() {
+  document.getElementById('unlock-btn').style.display = 'none';
+  if (!actx) return;
+  actx.resume().then(() => { if (ringingId) runBeepLoop(pendingVol); });
 }
 function resumeBeep() {
   if (!actx) return;
@@ -603,25 +624,26 @@ function resumeBeep() {
 }
 function runBeepLoop(vol) {
   clearInterval(beepIv);
-  /* Classic alarm: two-tone beep pattern */
-  function beepPattern() {
-    const t0 = actx.currentTime + 0.02;
-    [[880,0,0.12],[880,0.18,0.12],[880,0.36,0.12],[0,0],[1109,0.6,0.18],[1109,0.84,0.18]].forEach(([freq, when, dur]) => {
-      if (!freq) return;
-      const o = actx.createOscillator();
-      const gn = actx.createGain();
-      o.connect(gn); gn.connect(actx.destination);
-      o.type = 'square';
-      o.frequency.value = freq;
-      gn.gain.setValueAtTime(0, t0+when);
-      gn.gain.linearRampToValueAtTime(vol * 0.35, t0+when+0.01);
-      gn.gain.setValueAtTime(vol * 0.3, t0+when+dur*0.8);
-      gn.gain.linearRampToValueAtTime(0, t0+when+dur);
-      o.start(t0+when); o.stop(t0+when+dur);
+  const C5=523.3,D5=587.3,E5=659.3,G5=784,A5=880;
+  const mel=[[C5,.3],[C5,.3],[G5,.3],[G5,.3],[A5,.3],[A5,.3],[G5,.55],[E5,.3],[E5,.3],[D5,.3],[D5,.3],[C5,.55],[0,.2]];
+  const beat=60/162;
+  function playMelody(){
+    let t=actx.currentTime+0.04;
+    mel.forEach(([freq,dur])=>{
+      if(!freq){t+=dur*beat;return;}
+      const o=actx.createOscillator(),gn=actx.createGain();
+      o.connect(gn);gn.connect(actx.destination);
+      o.type='triangle';o.frequency.setValueAtTime(freq,t);
+      gn.gain.setValueAtTime(0,t);
+      gn.gain.linearRampToValueAtTime(vol*0.55,t+0.015);
+      gn.gain.setValueAtTime(vol*0.45,t+dur*beat*0.75);
+      gn.gain.linearRampToValueAtTime(0,t+dur*beat*0.97);
+      o.start(t);o.stop(t+dur*beat);t+=dur*beat;
     });
   }
-  beepPattern();
-  beepIv = setInterval(() => { try { beepPattern(); } catch(e) {} }, 1400);
+  playMelody();
+  const loopMs=mel.reduce((s,[,d])=>s+d*beat,0)*1000;
+  beepIv=setInterval(()=>{try{playMelody();}catch(e){}},Math.ceil(loopMs)+250);
 }
 
 function stopAlarm() {
