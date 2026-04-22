@@ -362,16 +362,6 @@ body{font-family:'Nunito',sans-serif;color:var(--txt);display:flex;flex-directio
   <div class="ring-time"  id="r-time">07:00</div>
   <div class="ring-label" id="r-label">起床囉！</div>
   <div class="ring-hint"  id="r-hint"></div>
-  <!-- iOS requires user gesture to unlock audio — this button does that -->
-  <button id="unlock-btn" onclick="unlockAudio()" style="
-    margin-bottom:18px;padding:14px 32px;border-radius:50px;border:none;
-    background:linear-gradient(135deg,#ffd60a,#ff9500);color:#1a0a2e;
-    font-family:'Nunito',sans-serif;font-size:17px;font-weight:900;
-    cursor:pointer;position:relative;z-index:1;
-    box-shadow:0 4px 20px rgba(255,200,0,0.5);
-    animation:unlockPulse 0.8s ease-in-out infinite alternate;display:none;">
-    🔔 點我開聲音
-  </button>
   <div class="ring-btns">
     <button class="stop-btn"   onclick="stopAlarm()">關掉鬧鐘 ✓</button>
     <button class="yt-btn"     id="yt-open-btn" style="display:none" onclick="openYT()">▶ 播放 YouTube 音樂</button>
@@ -604,19 +594,9 @@ function startBeep(vol) {
   pendingVol = vol;
   try {
     actx = new (window.AudioContext || window.webkitAudioContext)();
-    if (actx.state === 'suspended') {
-      /* iOS blocks autoplay — show the unlock button */
-      document.getElementById('unlock-btn').style.display = 'block';
-      return;
-    }
-    document.getElementById('unlock-btn').style.display = 'none';
+    if (actx.state === 'suspended') return;
     runBeepLoop(vol);
   } catch(e) {}
-}
-function unlockAudio() {
-  document.getElementById('unlock-btn').style.display = 'none';
-  if (!actx) return;
-  actx.resume().then(() => { if (ringingId) runBeepLoop(pendingVol); });
 }
 function resumeBeep() {
   if (!actx) return;
